@@ -1,15 +1,13 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import axiosInstance from "../axios/axiosInstance";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LogIn = () => {
-  const [Token, setToken] = useState(null);
-  const [usernameError, setUsernameError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  console.log(Token);
-  console.log(usernameError);
-  console.log(passwordError);
+  const navigate = useNavigate();
+  const [token, setToken] = useState("");
+
   const handleSubmit = async (event: any) => {
     event.preventDefault();
     const inputValue = new FormData(event.currentTarget);
@@ -21,40 +19,28 @@ const LogIn = () => {
   };
   const getResponse = async (user: any) => {
     try {
-      await checkResponse(res, user);
       const res = await axiosInstance.post("/login", user);
-      console.log(res);
-    } catch (error) {
-      console.log("didn't get response");
+      await getToken(res);
+    } catch (error: any) {
+      if (error.response.status === 401) {
+        console.log("401 error");
+      }
+      if (error.response.status === 400) {
+        console.log("400 error");
+      }
     }
   };
-  const checkResponse = async (res: any, user: any) => {
-    if (res === 400) {
-      console.log("ggggg");
-      console.log(user);
-      // return await checkEmptyInput(user);
-    }
-    if (res.status === 401) {
-      // await checkInput();
-    }
-    if (res.status === 200) {
-      setToken(res.data);
-      // await getToken(response);
-    }
+  const getToken = async (response: any) => {
+    setToken(response.data.token);
   };
-  const checkEmptyInput = async (user: any) => {
-    const { username, password } = user;
-    if (!username && !password) {
-      setUsernameError("Please enter a username.");
-      setPasswordError("Please enter a password.");
-    } else if (!username) {
-      setUsernameError("Please enter a username.");
-      setPasswordError("");
-    } else if (!password) {
-      setUsernameError("");
-      setPasswordError("Please enter a password.");
+
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem("myToken", token);
+      navigate("/dashboardd");
     }
-  };
+  }, [token]);
+
   return (
     <Container component="main" maxWidth="sm">
       <Box
@@ -97,13 +83,7 @@ const LogIn = () => {
             id="password"
             autoComplete="current-password"
           />
-          <Button
-            type="submit"
-            color="secondary"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
+          <Button type="submit" color="secondary" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Log In
           </Button>
         </Box>

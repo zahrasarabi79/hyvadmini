@@ -5,7 +5,7 @@ const Theme: FC<{ children: ReactNode }> = ({ children }) => {
   const theme = createTheme({
     palette: {
       background: {
-        default: "#040035", // Set the default background color here
+        default: "#1e1b4b", // Set the default background color here
       },
       text: {
         primary: "#FFFFFF", // Set the default text color here
