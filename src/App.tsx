@@ -11,7 +11,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<LoginIn />} />
-        <Route path="listOfReport" element={<ListOfReport />} />
         <Route path="showReport/:id" element={<ShowReport />} />
         <Route path="addOrEditReport" element={<AddOrEditContract />} />
         <Route path="dashboardd" element={<Dashboard />} />

@@ -1,14 +1,9 @@
 import { Button, Grid, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import AddReportBtn from "../buttons/addReportBtn";
+import ListPageBtn from "../buttons/goToList";
 
 const WelcomeCard = () => {
-  const navigate = useNavigate();
-
-  const addReportPage = () => {
-    navigate("/addOrEditReport");
-  };
-
-  
   return (
     <Grid item xs={3}>
       <Typography
@@ -36,19 +31,8 @@ const WelcomeCard = () => {
         <Typography sx={{ fontSize: 20, textAlign: "center", color: "white" }} variant="body1">
           !!!! به هیواد پرواز کیش خوش آمدید
         </Typography>
-        <Button
-          variant="contained"
-          sx={{
-            padding: 2,
-            margin: 2,
-            bgcolor: "#FF7A00",
-            boxShadow: "none",
-            fontSize: 20,
-          }}
-          onClick={addReportPage}
-        >
-          add Report
-        </Button>
+        <AddReportBtn />
+        <ListPageBtn />
       </Stack>
     </Grid>
   );

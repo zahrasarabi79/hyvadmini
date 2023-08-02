@@ -5,18 +5,21 @@ import ReportsInfo from "./ReportInfo";
 import axiosInstance from "../axios/axiosInstance";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Deletebtn from "../buttons/deletebtn";
+import EditBtn from "../buttons/editbtn";
 
 const Contract = () => {
   const [contract, setContract] = useState();
-  // const [passengers, setPassengers] = useState();
+  const [passengers, setPassengers] = useState();
+  const [reports, setReports] = useState();
 
   const { id } = useParams();
   const getContract = async () => {
     try {
       const { data } = await axiosInstance.post("/showReports", { id });
       setContract(data.Contracts[0]);
-      // setPassengers(data.Contracts[0].passengers.passenger);
-      // console.log(data.Contracts[0].passengers);
+      setPassengers(data.Contracts[0].passengers);
+      setReports(data.Contracts[0].report);
     } catch (error: any) {
       console.log("problem");
     }
@@ -58,15 +61,13 @@ const Contract = () => {
             گزارش خرید و فروش هیواد پرواز کیش
           </Typography>
           <ContractInformations contract={contract} />
-          <PassengersInfo />
-          <ReportsInfo />
+          <PassengersInfo passengers={passengers} />
+
+          <ReportsInfo reports={reports} />
+
           <Stack direction={"row"} gap={4} pt={4}>
-            <Button variant="contained" sx={{ bgcolor: "#3b82f6", fontSize: 20 }} fullWidth>
-              ویرایش
-            </Button>
-            <Button variant="contained" sx={{ bgcolor: "#f43f5e", fontSize: 20 }} fullWidth>
-              حذف
-            </Button>
+            <EditBtn />
+            <Deletebtn />
           </Stack>
         </Stack>
       </Box>
