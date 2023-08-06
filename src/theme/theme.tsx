@@ -1,8 +1,19 @@
+import { CacheProvider } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { ReactNode, FC } from "react";
+import { prefixer } from "stylis";
+import createCache from "@emotion/cache";
+
+import rtlPlugin from "stylis-plugin-rtl";
+const cacheRtl = createCache({
+  key: "muirtl",
+  stylisPlugins: [prefixer, rtlPlugin],
+});
+
 const Theme: FC<{ children: ReactNode }> = ({ children }) => {
   const theme = createTheme({
+    direction: "rtl",
     palette: {
       background: {
         default: "#1e1b4b", // Set the default background color here
@@ -19,10 +30,12 @@ const Theme: FC<{ children: ReactNode }> = ({ children }) => {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      {children}
-    </ThemeProvider>
+    <CacheProvider value={cacheRtl}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </ThemeProvider>
+    </CacheProvider>
   );
 };
 

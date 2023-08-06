@@ -5,7 +5,7 @@ const AddReportBtn = () => {
   const navigate = useNavigate();
 
   const addReportPage = () => {
-    navigate("/addOrEditReport");
+    navigate(`/AddReport`);
   };
 
   return (

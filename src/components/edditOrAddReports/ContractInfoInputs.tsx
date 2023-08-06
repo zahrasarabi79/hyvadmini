@@ -1,41 +1,33 @@
-import { TextField } from "@mui/material";
-import { Stack } from "@mui/system";
+import { Typography, Stack } from "@mui/material";
+import { CssTextField } from "./TextFildCustom";
 
-const ContractInfoInputs = () => {
+const ContractInfoInputs = ({ contract , HandelState }: any) => {
+  console.log(contract );
+
   return (
-    <Stack direction={"row"} sx={{ justifyContent: "center", gap: 50 }}>
-      <TextField
-        sx={{
-          "& .MuiInputBase-input.MuiOutlinedInput-input": {
-            border: "1px solid #3b82f6",
-            borderRadius: 2,
-            width: 500,
-          },
-          "& .MuiFormLabel-root.MuiInputLabel-root": {
-            color: "#3b82f6",
-            bgcolor: "#312e81",
-            fontSize: 16,
-          },
-        }}
-        label="تاریخ قرارداد"
-        dir="rtl"
-      />
-      <TextField
-        sx={{
-          "& .MuiInputBase-input.MuiOutlinedInput-input": {
-            border: "1px solid #3b82f6",
-            borderRadius: 2,
-            width: 500,
-          },
-          "& .MuiFormLabel-root.MuiInputLabel-root": {
-            color: "#3b82f6",
-            bgcolor: "#312e81",
-            fontSize: 16,
-          },
-        }}
-        label="شماره قرارداد"
-        dir="rtl"
-      />
+    <Stack dir="rtl">
+      <Typography
+        variant="h5"
+        color="white"
+        sx={{ borderBottom: " 1px solid white", mb: 2, pb: 2 }}
+      >
+        اطلاعات قرارداد
+      </Typography>
+
+      <Stack direction={"row"} gap={50}>
+        <CssTextField
+          name="dateContract"
+          value={contract.dateContract}
+          onChange={HandelState}
+          label="تاریخ قرارداد"
+        />
+        <CssTextField
+          name="numContract"
+          value={contract.numContract}
+          onChange={HandelState}
+          label="شماره قرارداد"
+        />
+      </Stack>
     </Stack>
   );
 };

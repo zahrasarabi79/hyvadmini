@@ -3,10 +3,11 @@ import Report from "./report";
 
 const ReportsInfo = ({ reports }: any) => {
   return (
-    <Stack sx={{ justifyContent: "center", px: 2, py: 4, borderRadius: 2, gap: 1 }}>
+    <Stack sx={{ px: 2, py: 4, borderRadius: 2, gap: 1 }}>
       <Typography
+        dir="rtl"
         variant="h5"
-        sx={{ color: "white", textAlign: "right", pb: 2, borderBottom: "1px solid #3b82f6", mb: 5 }}
+        sx={{ color: "white", pb: 2, borderBottom: "1px solid #3b82f6", mb: 5 }}
       >
         گزارش خرید /فروش
       </Typography>
