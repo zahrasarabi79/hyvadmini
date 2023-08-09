@@ -13,7 +13,7 @@ function App() {
         <Route path="/" element={<LoginIn />} />
         <Route path="showReport/:id" element={<ShowReport />} />
         <Route path="EditReport/:id" element={<AddOrEditContract />} />
-        <Route path="AddContract/" element={<AddOrEditContract  />} />
+        <Route path="AddContract/" element={<AddOrEditContract/>} />
         <Route path="dashboardd" element={<Dashboard />} />
         <Route path="*" element={<NotPage />} />
       </Routes>

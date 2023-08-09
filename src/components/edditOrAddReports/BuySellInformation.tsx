@@ -1,10 +1,7 @@
-import { Stack } from "@mui/joy";
-import { Button, Typography } from "@mui/material";
-import TextFildCustom from "./TextFildCustom";
-import { AiOutlinePlus } from "react-icons/ai";
+import { Stack, Typography } from "@mui/material";
 import ReportCard from "./Reportcard";
 
-const BuySellInformation = ({contract}:any) => {
+const BuySellInformation = ({ report, setReport ,contract ,updateContract }: any) => {
   return (
     <Stack dir="rtl" gap={1}>
       <Typography
@@ -14,8 +11,7 @@ const BuySellInformation = ({contract}:any) => {
       >
         اطلاعات خرید/فروش
       </Typography>
-      <ReportCard />
-      
+      <ReportCard report={report} setReport={setReport} contract={contract} updateContract={updateContract} />
     </Stack>
   );
 };

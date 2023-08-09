@@ -3,6 +3,7 @@ import { Box, Container } from "@mui/system";
 import axiosInstance from "../axios/axiosInstance";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { CssTextField } from "../edditOrAddReports/TextFildCustom";
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ const LogIn = () => {
           Login In
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          <TextField
+          <CssTextField
             margin="normal"
             required
             fullWidth
@@ -71,8 +72,8 @@ const LogIn = () => {
             autoComplete="username"
             autoFocus
           />
-
-          <TextField
+          
+          <CssTextField
             color="warning"
             margin="normal"
             required
@@ -83,7 +84,13 @@ const LogIn = () => {
             id="password"
             autoComplete="current-password"
           />
-          <Button type="submit" color="secondary" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+          <Button
+            type="submit"
+            color="secondary"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
             Log In
           </Button>
         </Box>

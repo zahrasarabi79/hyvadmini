@@ -1,47 +1,39 @@
-import { Button, Stack, Typography, Box } from "@mui/material";
+import { Stack, Button } from "@mui/material";
 import Report from "./Report";
-import { TiDelete } from "react-icons/ti";
 
-const ReportCard = () => {
+const ReportCard = ({ contract, report, setReport, updateContract }: any) => {
+  const handleChange = (e: any, index: number, value: string) => {
+    !!report[index] && (report[index][value] = e.target.value);
+    setReport([...report]);
+  };
+
+  const handelAddRow = () => {
+    setReport((prev: any) => [
+      {
+        number: "",
+        costTitle: "",
+        presenter: "",
+        bank: "",
+        payments: "",
+        datepayment: "",
+      },
+      ...prev,
+    ]);
+    const updatedContract = {
+      ...contract,
+      report: [...contract.report, report],
+    };
+    updateContract(updatedContract);
+  };
+
   return (
-    <Stack sx={{ borderRadius: 4, padding: 2, gap: 2 }}>
-      <Typography
-        component="div"
-        variant="body1"
-        style={{
-          height: 200,
-          width: "100%",
-          position: "relative",
-        }}
-      >
-        <Box
-          sx={{
-            color: "red",
-            position: "absolute",
-            top: "-15px",
-            left: "-12px",
-            zIndex: "tooltip",
-            fontSize: 30,
-          }}
-        >
-          <TiDelete />
-        </Box>
-        <Box
-          sx={{
-            width: "100%",
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: "mobile stepper",
-            gap: 5,
-          }}
-        >
-          <Report />
-        </Box>
-      </Typography>
+    <Stack sx={{ padding: 2, gap: 2 }}>
+      {report.map((item: any, index: any) => (
+        <Report key={index} index={index} item={item} handleChange={handleChange} />
+      ))}
 
-      <Button variant="contained" color="primary" sx={{ fontSize: 20 }}>
-        افزودن اطلاعات جدید
+      <Button onClick={handelAddRow} variant="contained" color="primary" sx={{ fontSize: 20 }}>
+        افزودن گزارش
       </Button>
     </Stack>
   );

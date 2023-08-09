@@ -2,7 +2,6 @@ import { Typography, Stack } from "@mui/material";
 import { CssTextField } from "./TextFildCustom";
 
 const ContractInfoInputs = ({ contract , HandelState }: any) => {
-  console.log(contract );
 
   return (
     <Stack dir="rtl">

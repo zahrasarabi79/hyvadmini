@@ -1,11 +1,12 @@
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { CardHeader, Grid, Stack, Typography } from "@mui/material";
 import ContractInfoInputs from "./ContractInfoInputs";
 import PassengersInputs from "./passengersInputs";
 import BuySellInformation from "./BuySellInformation";
-import axiosInstance from "../axios/axiosInstance";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
-const FormContractInputs = ({ id }: any) => {
+import { Card } from "@mui/material";
+import axiosInstance from "../axios/axiosInstance";
+const FormContractInputs = () => {
   const [contract, setContract] = useState({
     dateContract: "",
     numContract: "",
@@ -13,52 +14,49 @@ const FormContractInputs = ({ id }: any) => {
     passengers: [],
     report: [],
   });
-  const getContract = async () => {
+
+  const [report, setReport] = useState([
+    {
+      number: "",
+      costTitle: "",
+      presenter: "",
+      bank: "",
+      payments: "",
+      datepayment: "",
+    },
+  ]);
+
+  const saveContract = async () => {
+    console.log(contract);
+
     try {
-      const { data } = await axiosInstance.post("/showReports", { id });
-      setContract(data.Contracts[0]);
+      const { data } = await axiosInstance.post("/AddReports", contract);
+      console.log(data);
     } catch (error: any) {
-      console.log("did not get res");
+      console.log("problem");
     }
   };
+
   const updateContract = (updatedContract: any) => {
     setContract(updatedContract);
   };
-  useEffect(() => {
-    getContract();
-  }, []);
-
   const HandelState = (e: any) => {
     setContract((prevstate) => ({
       ...prevstate,
       [e.target.name]: e.target.value,
     }));
   };
-  const handelSubmit = (e) => {
+  const handelSubmit = (e: any) => {
     e.preventDefault();
-    console.log(contract);
+    saveContract();
   };
 
   return (
     <Grid item xs={9}>
-      <Typography
-        variant="body1"
-        sx={{
-          p: 2,
-          fontSize: 20,
-          color: "white",
-          background: "#3b82f6",
-          borderTopLeftRadius: 6,
-          borderTopRightRadius: 6,
-        }}
-      >
-        Contract Information
-      </Typography>
-
-      <Box
+      <Card
         sx={{
           bgcolor: "#312e81",
-          py: 2,
+          pb: 2,
           borderBottomLeftRadius: 6,
           borderBottomRightRadius: 6,
           display: "flex",
@@ -66,24 +64,44 @@ const FormContractInputs = ({ id }: any) => {
           gap: 2,
         }}
       >
+        <CardHeader
+          sx={{
+            color: "white",
+            background: "#3b82f6",
+            borderTopLeftRadius: 6,
+            borderTopRightRadius: 6,
+          }}
+          title={
+            <Typography
+              variant="body1"
+              sx={{
+                fontSize: 20,
+              }}
+            >
+              Contract Information
+            </Typography>
+          }
+        />
+
         <Stack sx={{ p: 2, gap: 5, borderRadius: 4, justifyContent: "right" }}>
           <Typography variant="h4" sx={{ color: "white", textAlign: "center", p: 2 }}>
             گزارش خرید و فروش هیواد پرواز کیش
           </Typography>
           <form onSubmit={handelSubmit}>
             <ContractInfoInputs HandelState={HandelState} contract={contract} />
-            <PassengersInputs
-              HandelState={HandelState}
-              contract={contract}
+            <PassengersInputs contract={contract} updateContract={updateContract} />
+            <BuySellInformation
               updateContract={updateContract}
+              report={report}
+              setReport={setReport}
+              contract={contract}
             />
-            <BuySellInformation HandelState={HandelState} contract={contract} />
             <Button type="submit" variant="contained" color="secondary">
               ثبت گزارش
             </Button>
           </form>
         </Stack>
-      </Box>
+      </Card>
     </Grid>
   );
 };

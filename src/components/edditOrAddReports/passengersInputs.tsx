@@ -4,22 +4,35 @@ import { AiOutlinePlus } from "react-icons/ai";
 import PassengerCard from "./passengercard";
 import { useState } from "react";
 import { Grid } from "@mui/joy";
-
 const PassengersInputs = ({ contract, updateContract }: any) => {
   const [newPassenger, setNewPassenger] = useState("");
 
   const handleAddPassenger = (e: any) => {
     e.preventDefault();
-    if (newPassenger.trim() !== "") {
-      const updatedContract = {
-        ...contract,
-        passengers: [...contract.passengers, newPassenger],
-      };
-      updateContract(updatedContract);
-      setNewPassenger("");
+    if (newPassenger.trim() === "") {
+      return;
     }
+
+    const updatedContract = {
+      ...contract,
+      passengers: [...contract.passengers, newPassenger],
+    };
+    updateContract(updatedContract);
+    setNewPassenger("");
   };
 
+  const handleDeletePassenger = (passengerIndex: any) => {
+    const updatedPassengers = contract.passengers.filter(
+      (_: any, index: any) => index !== passengerIndex
+    );
+
+    const updatedContract = {
+      ...contract,
+      passengers: updatedPassengers,
+    };
+
+    updateContract(updatedContract);
+  };
   return (
     <Stack dir="rtl" spacing={2}>
       <Typography
@@ -46,10 +59,14 @@ const PassengersInputs = ({ contract, updateContract }: any) => {
         </Button>
       </Stack>
       <Grid container gap={2}>
-        {contract.passengers.map((passenger: any, index: any) => (
-          <PassengerCard key={index} passengername={passenger} />
+        {contract?.passengers?.map((passenger: any, index: any) => (
+          <PassengerCard
+            key={index}
+            passengername={passenger}
+            onDelete={() => handleDeletePassenger(index)}
+          />
         ))}
-        {newPassenger.trim() !== "" && <PassengerCard passengername={newPassenger} />}
+        {/* {newPassenger.trim() !== "" && <PassengerCard passengername={newPassengeri} />} */}
       </Grid>
     </Stack>
   );
