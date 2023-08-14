@@ -3,15 +3,19 @@ import { CssTextField } from "./TextFildCustom";
 import { AiOutlinePlus } from "react-icons/ai";
 import PassengerCard from "./passengercard";
 import { useState } from "react";
-import { Grid } from "@mui/joy";
+import { Grid } from "@mui/material";
 const PassengersInputs = ({ contract, updateContract }: any) => {
   const [newPassenger, setNewPassenger] = useState("");
+
+ 
 
   const handleAddPassenger = (e: any) => {
     e.preventDefault();
     if (newPassenger.trim() === "") {
       return;
     }
+    console.log(contract);
+    console.log(newPassenger);
 
     const updatedContract = {
       ...contract,
@@ -33,6 +37,7 @@ const PassengersInputs = ({ contract, updateContract }: any) => {
 
     updateContract(updatedContract);
   };
+
   return (
     <Stack dir="rtl" spacing={2}>
       <Typography

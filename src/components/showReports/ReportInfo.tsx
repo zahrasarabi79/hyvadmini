@@ -1,5 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import Report from "./report";
+import { Select, MenuItem } from "@mui/material";
+import { Option } from "@mui/base/Option";
 
 const ReportsInfo = ({ reports }: any) => {
   return (
@@ -11,6 +13,7 @@ const ReportsInfo = ({ reports }: any) => {
       >
         گزارش خرید /فروش
       </Typography>
+      
       {reports?.map((report: any) => (
         <Report key={report.id} report={report} />
       ))}

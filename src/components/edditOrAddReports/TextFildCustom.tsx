@@ -6,6 +6,14 @@ export const CssTextField = styled(TextField)({
   width: 500,
   input: { color: "white" },
 
+  "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
+    "WebkitAppearance": "none",
+    margin: 0,
+  },
+  '& input[type="number"]': {
+    "MozAppearance": "textfield",
+  },
+ 
   // when focuse lable become red
   "& label.Mui-focused": {
     color: "#3b82f6",

@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Stack, Typography } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import ContractInformations from "./ContractInformations";
 import PassengersInfo from "./PassengersInfo";
 import ReportsInfo from "./ReportInfo";
@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Deletebtn from "../buttons/deletebtn";
 import EditBtn from "../buttons/editbtn";
-import { Link } from "react-router-dom";
 
 const Contract = () => {
   const [contract, setContract] = useState();
@@ -67,9 +66,7 @@ const Contract = () => {
           <ReportsInfo reports={reports} />
 
           <Stack direction={"row"} gap={4} pt={4}>
-            {/* <Link to={`/addOrEditReport/${id}`}> */}
             <EditBtn id={id} />
-            {/* </Link> */}
             <Deletebtn />
           </Stack>
         </Stack>

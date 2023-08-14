@@ -1,7 +1,9 @@
 import { Stack, Typography } from "@mui/material";
 import ReportCard from "./Reportcard";
 
-const BuySellInformation = ({ report, setReport ,contract ,updateContract }: any) => {
+const BuySellInformation = ({ report, setReport, contract, updateContract }: any) => {
+  // console.log(report);
+
   return (
     <Stack dir="rtl" gap={1}>
       <Typography
@@ -11,7 +13,12 @@ const BuySellInformation = ({ report, setReport ,contract ,updateContract }: any
       >
         اطلاعات خرید/فروش
       </Typography>
-      <ReportCard report={report} setReport={setReport} contract={contract} updateContract={updateContract} />
+      <ReportCard
+        report={report}
+        setReport={setReport}
+        contract={contract}
+        updateContract={updateContract}
+      />
     </Stack>
   );
 };

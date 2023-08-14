@@ -1,9 +1,14 @@
 import { Stack } from "@mui/material";
 import { CssTextField } from "./TextFildCustom";
 import { Button, Card } from "@mui/material";
-import { useState } from "react";
 
-const Report = ({ index, item, handleChange }: any) => {
+
+const Report = ({ index, item, handleChange, setReport, contract }: any) => {
+  const onDelete = () => {
+    setReport((prev) => [...prev.filter((item, i) => i !== index && item["number"] !== "")]);
+  };
+  console.log(contract);
+
   return (
     <Card
       sx={{
@@ -21,6 +26,7 @@ const Report = ({ index, item, handleChange }: any) => {
           fullWidth
           value={item.number}
           onChange={(e) => handleChange(e, index, "number")}
+          type="number"
         />
         <CssTextField
           label="عنوان هزینه"
@@ -55,7 +61,11 @@ const Report = ({ index, item, handleChange }: any) => {
           onChange={(e) => handleChange(e, index, "datepayment")}
         />
       </Stack>
-      <Button variant="contained" sx={{ mt: 3, justifyContent: "center", width: "100%" }}>
+      <Button
+        onClick={onDelete}
+        variant="contained"
+        sx={{ mt: 3, justifyContent: "center", width: "100%" }}
+      >
         delete
       </Button>
     </Card>

@@ -1,8 +1,21 @@
-import { Typography, Stack } from "@mui/material";
+import {
+  Typography,
+  Stack,
+  FormControl,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+} from "@mui/material";
 import { CssTextField } from "./TextFildCustom";
+import { useState } from "react";
 
-const ContractInfoInputs = ({ contract , HandelState }: any) => {
-
+const ContractInfoInputs = ({
+  contract,
+  HandelState,
+  numContractError,
+  dateContractError,
+}: any) => {
   return (
     <Stack dir="rtl">
       <Typography
@@ -19,14 +32,61 @@ const ContractInfoInputs = ({ contract , HandelState }: any) => {
           value={contract.dateContract}
           onChange={HandelState}
           label="تاریخ قرارداد"
+          helperText={dateContractError ? "شماره قرار داد را وارد کنید" : ""}
+          error={dateContractError}
         />
         <CssTextField
           name="numContract"
           value={contract.numContract}
           onChange={HandelState}
           label="شماره قرارداد"
+          helperText={numContractError ? "شماره قرار داد را وارد کنید" : ""}
+          error={numContractError}
         />
       </Stack>
+
+      <FormControl sx={{ my: 5 }}>
+        <FormLabel
+          sx={{
+            fontSize: 20,
+            color: "white",
+          }}
+        >
+          نوع گزارش
+        </FormLabel>
+        <RadioGroup row name="typeReport" value={contract.typeReport} onChange={HandelState}>
+          <FormControlLabel
+            value="خرید"
+            onChange={HandelState}
+            control={
+              <Radio
+                sx={{
+                  color: "#3b82f6",
+                  "&.Mui-checked": {
+                    color: "#3b82f6",
+                  },
+                }}
+              />
+            }
+            label="خرید"
+          />
+          <FormControlLabel
+            value="فروش"
+            onChange={HandelState}
+            control={
+              <Radio
+                sx={{
+                  color: "#3b82f6",
+                  "&.Mui-checked": {
+                    color: "#3b82f6",
+                  },
+                }}
+              />
+            }
+            label="فروش"
+          />
+        </RadioGroup>
+      </FormControl>
     </Stack>
   );
 };

@@ -6,14 +6,10 @@ import { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import { Card } from "@mui/material";
 import axiosInstance from "../axios/axiosInstance";
+import { useNavigate, useParams } from "react-router-dom";
 const FormContractInputs = () => {
-  const [contract, setContract] = useState({
-    dateContract: "",
-    numContract: "",
-    typeReport: "",
-    passengers: [],
-    report: [],
-  });
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   const [report, setReport] = useState([
     {
@@ -25,18 +21,76 @@ const FormContractInputs = () => {
       datepayment: "",
     },
   ]);
+  const [contract, setContract] = useState({
+    dateContract: "",
+    numContract: "",
+    typeReport: "خرید",
+    passengers: [],
+    report: [],
+  });
+  const [dateContractError, setDateContractError] = useState(false);
+  const [numContractError, setNumContractError] = useState(false);
+
+  useEffect(() => {
+    setContract({
+      ...contract,
+      report: [...report],
+    });
+  }, [report]);
+  // const [updateData, setUpdateData] = useState();
+  useEffect(() => {
+    if (id) {
+      getContract();
+    } else {
+      console.log("add data");
+    }
+  }, []);
 
   const saveContract = async () => {
-    console.log(contract);
-
     try {
+      console.log(contract);
       const { data } = await axiosInstance.post("/AddReports", contract);
-      console.log(data);
+      console.log(data.id);
+      navigate(`/showReport/${data.id}`);
     } catch (error: any) {
       console.log("problem");
     }
   };
+  const getContract = async () => {
+    try {
+      const { data } = await axiosInstance.post("/showReports", { id });
+      const { dateContract, numContract, typeReport, passengers, report } = data.Contracts[0];
+      const passengerNames = passengers.map(({ passenger }: any) => passenger);
+      const ReportData = report.map((obj: any) => ({
+        number: obj.number,
+        costTitle: obj.costTitle,
+        presenter: obj.presenter,
+        bank: obj.bank,
+        payments: obj.payments,
+        datepayment: obj.datepayment,
+      }));
 
+      setContract({
+        dateContract,
+        numContract,
+        typeReport,
+        passengers: [...passengerNames],
+      });
+      setReport([...ReportData]);
+    } catch (error: any) {
+      console.log("problem");
+    }
+  };
+  const updateDataContract = async () => {
+    try {
+      console.log(contract);
+
+      const { data } = await axiosInstance.post("/updateReports", { ...contract, id, report });
+      navigate(`/showReport/${data.findContract.id}`);
+    } catch (error: any) {
+      console.log("problem");
+    }
+  };
   const updateContract = (updatedContract: any) => {
     setContract(updatedContract);
   };
@@ -46,9 +100,16 @@ const FormContractInputs = () => {
       [e.target.name]: e.target.value,
     }));
   };
-  const handelSubmit = (e: any) => {
+
+  const handelCantractInfoError = async () => {
+    contract.dateContract.trim() === "" ? setDateContractError(true) : setDateContractError(false);
+    contract.numContract.trim() === "" ? setNumContractError(true) : setNumContractError(false);
+  };
+
+  const handelSubmit = async (e: any) => {
     e.preventDefault();
-    saveContract();
+    await handelCantractInfoError();
+    id ? updateDataContract() : saveContract();
   };
 
   return (
@@ -88,7 +149,12 @@ const FormContractInputs = () => {
             گزارش خرید و فروش هیواد پرواز کیش
           </Typography>
           <form onSubmit={handelSubmit}>
-            <ContractInfoInputs HandelState={HandelState} contract={contract} />
+            <ContractInfoInputs
+              HandelState={HandelState}
+              contract={contract}
+              dateContractError={dateContractError}
+              numContractError={numContractError}
+            />
             <PassengersInputs contract={contract} updateContract={updateContract} />
             <BuySellInformation
               updateContract={updateContract}
