@@ -1,13 +1,13 @@
 import { Stack } from "@mui/material";
 import { CssTextField } from "./TextFildCustom";
 import { Button, Card } from "@mui/material";
+import { useState } from "react";
 
-
-const Report = ({ index, item, handleChange, setReport, contract }: any) => {
+const Report = ({ index, item, handleChange, setReport, contract, reportError }: any) => {
   const onDelete = () => {
     setReport((prev) => [...prev.filter((item, i) => i !== index && item["number"] !== "")]);
   };
-  console.log(contract);
+  console.log(reportError);
 
   return (
     <Card
@@ -27,18 +27,27 @@ const Report = ({ index, item, handleChange, setReport, contract }: any) => {
           value={item.number}
           onChange={(e) => handleChange(e, index, "number")}
           type="number"
+          error={reportError?.number}
+          helperText={reportError?.number ? "تعداد را وارد کنید" : ""}
+          required
         />
         <CssTextField
           label="عنوان هزینه"
           fullWidth
           value={item.costTitle}
           onChange={(e) => handleChange(e, index, "costTitle")}
+          error={reportError?.costTitle}
+          helperText={reportError?.costTitle ? "تعداد را وارد کنید" : ""}
+          required
         />
         <CssTextField
           label="مجری"
           fullWidth
           value={item.presenter}
           onChange={(e) => handleChange(e, index, "presenter")}
+          error={reportError?.presenter}
+          helperText={reportError?.presenter ? "تعداد را وارد کنید" : ""}
+          required
         />
       </Stack>
       <Stack direction={"row"} sx={{ gap: 3 }}>
@@ -47,18 +56,27 @@ const Report = ({ index, item, handleChange, setReport, contract }: any) => {
           fullWidth
           value={item.bank}
           onChange={(e) => handleChange(e, index, "bank")}
+          error={reportError?.bank}
+          helperText={reportError?.bank ? "تعداد را وارد کنید" : ""}
+          required
         />
         <CssTextField
           label="هزینه ها"
           fullWidth
           value={item.payments}
           onChange={(e) => handleChange(e, index, "payments")}
+          error={reportError?.payments}
+          helperText={reportError?.payments ? "تعداد را وارد کنید" : ""}
+          required
         />
         <CssTextField
           label="تاریخ"
           fullWidth
           value={item.datepayment}
           onChange={(e) => handleChange(e, index, "datepayment")}
+          error={reportError?.datepayment}
+          helperText={reportError?.datepayment ? "تعداد را وارد کنید" : ""}
+          required
         />
       </Stack>
       <Button

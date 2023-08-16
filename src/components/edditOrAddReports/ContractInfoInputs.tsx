@@ -13,9 +13,21 @@ import { useState } from "react";
 const ContractInfoInputs = ({
   contract,
   HandelState,
+  setContract,
+  setNumContractError,
   numContractError,
+  setDateContractError,
   dateContractError,
 }: any) => {
+  const handelStateDateContract = async (e) => {
+    setContract((prev: any) => ({ ...prev, [e.target.name]: e.target.value }));
+    setDateContractError("");
+  };
+  const handelStateNumContract = async (e) => {
+    setContract((prev: any) => ({ ...prev, [e.target.name]: e.target.value }));
+    setNumContractError("");
+  };
+
   return (
     <Stack dir="rtl">
       <Typography
@@ -30,7 +42,7 @@ const ContractInfoInputs = ({
         <CssTextField
           name="dateContract"
           value={contract.dateContract}
-          onChange={HandelState}
+          onChange={handelStateDateContract}
           label="تاریخ قرارداد"
           helperText={dateContractError ? "شماره قرار داد را وارد کنید" : ""}
           error={dateContractError}
@@ -38,7 +50,7 @@ const ContractInfoInputs = ({
         <CssTextField
           name="numContract"
           value={contract.numContract}
-          onChange={HandelState}
+          onChange={handelStateNumContract}
           label="شماره قرارداد"
           helperText={numContractError ? "شماره قرار داد را وارد کنید" : ""}
           error={numContractError}
@@ -57,7 +69,9 @@ const ContractInfoInputs = ({
         <RadioGroup row name="typeReport" value={contract.typeReport} onChange={HandelState}>
           <FormControlLabel
             value="خرید"
-            onChange={HandelState}
+            onChange={(e: any) =>
+              setContract((prev: any) => ({ ...prev, [e.target.name]: e.target.value }))
+            }
             control={
               <Radio
                 sx={{

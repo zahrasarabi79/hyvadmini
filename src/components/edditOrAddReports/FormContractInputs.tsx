@@ -28,8 +28,20 @@ const FormContractInputs = () => {
     passengers: [],
     report: [],
   });
+
   const [dateContractError, setDateContractError] = useState(false);
   const [numContractError, setNumContractError] = useState(false);
+  const [passengersError, setPassengersError] = useState(false);
+  const [reportError, setReportError] = useState([
+    {
+      number: false,
+      costTitle: false,
+      presenter: false,
+      bank: false,
+      payments: false,
+      datepayment: false,
+    },
+  ]);
 
   useEffect(() => {
     setContract({
@@ -83,8 +95,6 @@ const FormContractInputs = () => {
   };
   const updateDataContract = async () => {
     try {
-      console.log(contract);
-
       const { data } = await axiosInstance.post("/updateReports", { ...contract, id, report });
       navigate(`/showReport/${data.findContract.id}`);
     } catch (error: any) {
@@ -94,21 +104,35 @@ const FormContractInputs = () => {
   const updateContract = (updatedContract: any) => {
     setContract(updatedContract);
   };
-  const HandelState = (e: any) => {
-    setContract((prevstate) => ({
-      ...prevstate,
-      [e.target.name]: e.target.value,
-    }));
+  const validateReportArray = (reportArray) => {
+    console.log("newState[index].number");
+
+    reportArray.forEach((item, index) => {
+      setReportError((prevStates) => {
+        const newState = [...prevStates];
+        newState[index] = newState[index] || {};
+        newState[index].number = item.number.toString().trim() === "" ? true : false;
+        newState[index].costTitle = item.costTitle.trim() === "" ? true : false;
+        newState[index].presenter = item.presenter.trim() === "" ? true : false;
+        newState[index].bank = item.bank.trim() === "" ? true : false;
+        newState[index].payments = item.payments.trim() === "" ? true : false;
+        newState[index].datepayment = item.datepayment.trim() === "" ? true : false;
+        return newState;
+      });
+    });
   };
 
   const handelCantractInfoError = async () => {
     contract.dateContract.trim() === "" ? setDateContractError(true) : setDateContractError(false);
     contract.numContract.trim() === "" ? setNumContractError(true) : setNumContractError(false);
+    contract.passengers.length === 0 ? setPassengersError(true) : setPassengersError(false);
+    id ? validateReportArray(contract.report) : validateReportArray(contract.report);
   };
 
   const handelSubmit = async (e: any) => {
     e.preventDefault();
     await handelCantractInfoError();
+
     id ? updateDataContract() : saveContract();
   };
 
@@ -148,18 +172,27 @@ const FormContractInputs = () => {
           <Typography variant="h4" sx={{ color: "white", textAlign: "center", p: 2 }}>
             گزارش خرید و فروش هیواد پرواز کیش
           </Typography>
-          <form onSubmit={handelSubmit}>
+          <form noValidate onSubmit={handelSubmit}>
             <ContractInfoInputs
-              HandelState={HandelState}
               contract={contract}
+              setContract={setContract}
+              setDateContractError={setDateContractError}
               dateContractError={dateContractError}
+              setNumContractError={setNumContractError}
               numContractError={numContractError}
             />
-            <PassengersInputs contract={contract} updateContract={updateContract} />
+            <PassengersInputs
+              contract={contract}
+              updateContract={updateContract}
+              passengersError={passengersError}
+              setPassengersError={setPassengersError}
+            />
             <BuySellInformation
               updateContract={updateContract}
               report={report}
               setReport={setReport}
+              reportError={reportError}
+              setReportError={setReportError}
               contract={contract}
             />
             <Button type="submit" variant="contained" color="secondary">

@@ -4,19 +4,12 @@ import { AiOutlinePlus } from "react-icons/ai";
 import PassengerCard from "./passengercard";
 import { useState } from "react";
 import { Grid } from "@mui/material";
-const PassengersInputs = ({ contract, updateContract }: any) => {
+const PassengersInputs = ({ contract, updateContract ,setPassengersError ,passengersError}: any) => {
   const [newPassenger, setNewPassenger] = useState("");
-
- 
-
+  // const [passengersError, setPassengersError] = useState(false);
   const handleAddPassenger = (e: any) => {
     e.preventDefault();
-    if (newPassenger.trim() === "") {
-      return;
-    }
-    console.log(contract);
-    console.log(newPassenger);
-
+    newPassenger.trim() === "" ? setPassengersError(true) : setPassengersError(false);
     const updatedContract = {
       ...contract,
       passengers: [...contract.passengers, newPassenger],
@@ -37,6 +30,10 @@ const PassengersInputs = ({ contract, updateContract }: any) => {
 
     updateContract(updatedContract);
   };
+  const handleChange = (e: any) => {
+    setNewPassenger(e.target.value);
+    setPassengersError("");
+  };
 
   return (
     <Stack dir="rtl" spacing={2}>
@@ -52,17 +49,20 @@ const PassengersInputs = ({ contract, updateContract }: any) => {
           dir="rtl"
           label={"مسافران"}
           value={newPassenger}
-          onChange={(e: any) => setNewPassenger(e.target.value)}
+          onChange={handleChange}
+          helperText={passengersError ? "اسم مسافرین را وارد کنید" : ""}
+          error={passengersError}
         />
         <Button
           onClick={handleAddPassenger}
           color="secondary"
           variant="contained"
-          sx={{ borderRadius: 2 }}
+          sx={{ borderRadius: 2, width: 60, height: 60 }}
         >
           <AiOutlinePlus fontSize="30" />
         </Button>
       </Stack>
+
       <Grid container gap={2}>
         {contract?.passengers?.map((passenger: any, index: any) => (
           <PassengerCard

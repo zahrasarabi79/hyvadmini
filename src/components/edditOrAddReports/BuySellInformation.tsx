@@ -1,7 +1,14 @@
 import { Stack, Typography } from "@mui/material";
 import ReportCard from "./Reportcard";
 
-const BuySellInformation = ({ report, setReport, contract, updateContract }: any) => {
+const BuySellInformation = ({
+  report,
+  setReport,
+  contract,
+  updateContract,
+  reportError,
+  setReportError,
+}: any) => {
   // console.log(report);
 
   return (
@@ -17,6 +24,8 @@ const BuySellInformation = ({ report, setReport, contract, updateContract }: any
         report={report}
         setReport={setReport}
         contract={contract}
+        reportError={reportError}
+        setReportError={setReportError}
         updateContract={updateContract}
       />
     </Stack>
