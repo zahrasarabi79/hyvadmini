@@ -1,40 +1,27 @@
-import {
-  Typography,
-  Stack,
-  FormControl,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
-} from "@mui/material";
+import { Typography, Stack, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import { CssTextField } from "./TextFildCustom";
-import { useState } from "react";
+import { IContract, IContractInfoInputs } from "../interface/Interfaces";
 
-const ContractInfoInputs = ({
+const ContractInfoInputs: React.FC<IContractInfoInputs> = ({
   contract,
-  HandelState,
   setContract,
   setNumContractError,
   numContractError,
   setDateContractError,
   dateContractError,
-}: any) => {
-  const handelStateDateContract = async (e) => {
-    setContract((prev: any) => ({ ...prev, [e.target.name]: e.target.value }));
-    setDateContractError("");
+}) => {
+  const handelStateDateContract = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setContract((prev: IContract) => ({ ...prev, [e.target.name]: e.target.value }));
+    setDateContractError(false);
   };
-  const handelStateNumContract = async (e) => {
-    setContract((prev: any) => ({ ...prev, [e.target.name]: e.target.value }));
-    setNumContractError("");
+  const handelStateNumContract = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setContract((prev: IContract) => ({ ...prev, [e.target.name]: e.target.value }));
+    setNumContractError(false);
   };
 
   return (
     <Stack dir="rtl">
-      <Typography
-        variant="h5"
-        color="white"
-        sx={{ borderBottom: " 1px solid white", mb: 2, pb: 2 }}
-      >
+      <Typography variant="h5" color="white" sx={{ borderBottom: " 1px solid white", mb: 2, pb: 2 }}>
         اطلاعات قرارداد
       </Typography>
 
@@ -66,12 +53,10 @@ const ContractInfoInputs = ({
         >
           نوع گزارش
         </FormLabel>
-        <RadioGroup row name="typeReport" value={contract.typeReport} onChange={HandelState}>
+        <RadioGroup row name="typeReport" value={contract.typeReport}>
           <FormControlLabel
             value="خرید"
-            onChange={(e: any) =>
-              setContract((prev: any) => ({ ...prev, [e.target.name]: e.target.value }))
-            }
+            onChange={(e: any) => setContract((prev: any) => ({ ...prev, [e.target.name]: e.target.value }))}
             control={
               <Radio
                 sx={{
@@ -86,7 +71,7 @@ const ContractInfoInputs = ({
           />
           <FormControlLabel
             value="فروش"
-            onChange={HandelState}
+            onChange={(e: any) => setContract((prev: any) => ({ ...prev, [e.target.name]: e.target.value }))}
             control={
               <Radio
                 sx={{

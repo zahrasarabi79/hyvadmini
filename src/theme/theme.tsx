@@ -26,6 +26,7 @@ const Theme: FC<{ children: ReactNode }> = ({ children }) => {
         contrastText: "#FFFFFF",
       },
     },
+    
   });
 
   return (

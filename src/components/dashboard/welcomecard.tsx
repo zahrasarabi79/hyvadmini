@@ -1,5 +1,4 @@
-import { Button, Grid, Stack, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Grid, Stack, Typography } from "@mui/material";
 import AddReportBtn from "../buttons/addReportBtn";
 import ListPageBtn from "../buttons/goToList";
 

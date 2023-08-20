@@ -1,17 +1,8 @@
-import {
-  Alert,
-  Stack,
-  Snackbar,
-  Button,
-  Modal,
-  Typography,
-  Card,
-  CardContent,
-  CardActions,
-} from "@mui/material";
+import { Alert, Stack, Snackbar, Button, Modal, Typography, Card, CardContent, CardActions } from "@mui/material";
 import axiosInstance from "../axios/axiosInstance";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
+import { RouteParams } from "../interface/Interfaces";
 
 const Deletebtn = () => {
   const style = {
@@ -27,27 +18,27 @@ const Deletebtn = () => {
     borderRadius: 4,
   };
   // Modal state and open/colse func
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const handleOpen: () => void = () => setOpen(true);
+  const handleClose: () => void = () => setOpen(false);
   // success delete snackbar state and open/colse func
-  const [openSnackBar, setOpenSnackBar] = useState(false);
-  const handleOpenSnackBar = () => setOpenSnackBar(true);
-  const handleCloseSnackBar = () => {
+  const [openSnackBar, setOpenSnackBar] = useState<boolean>(false);
+  const handleOpenSnackBar: () => void = () => setOpenSnackBar(true);
+  const handleCloseSnackBar: () => void = () => {
     setOpenSnackBar(false);
     navigate("/dashboardd");
   };
   // success delete snackbar state and open/colse func
   const [openFailedSnackBar, setOpenFailedSnackBar] = useState(false);
-  const handleOpenFailedSnackBar = () => setOpenFailedSnackBar(true);
-  const handleCloseFailedSnackBar = () => {
+  const handleOpenFailedSnackBar: () => void = () => setOpenFailedSnackBar(true);
+  const handleCloseFailedSnackBar: () => void = () => {
     setOpenFailedSnackBar(false);
   };
   //  nevigate
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const deleteReport = async () => {
+  const deleteReport: () => Promise<void> = async () => {
     try {
       await axiosInstance.post("/deleteReports", { id });
       handleOpenSnackBar();
@@ -79,28 +70,15 @@ const Deletebtn = () => {
             >
               خیر
             </Button>
-            <Button
-              sx={{ borderRadius: 2, boxShadow: "none", bgcolor: "red", fontSize: 16 }}
-              onClick={deleteReport}
-              variant="contained"
-            >
+            <Button sx={{ borderRadius: 2, boxShadow: "none", bgcolor: "red", fontSize: 16 }} onClick={deleteReport} variant="contained">
               بله
             </Button>
           </CardActions>
         </Card>
       </Modal>
       {/* success snackBar*/}
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={openSnackBar}
-        autoHideDuration={1000}
-        onClose={handleCloseSnackBar}
-      >
-        <Alert
-          dir="rtl"
-          severity="success"
-          sx={{ width: "100%", fontSize: 20, color: "green", p: 2 }}
-        >
+      <Snackbar anchorOrigin={{ vertical: "top", horizontal: "center" }} open={openSnackBar} autoHideDuration={1000} onClose={handleCloseSnackBar}>
+        <Alert dir="rtl" severity="success" sx={{ width: "100%", fontSize: 20, color: "green", p: 2 }}>
           قرارداد با موفقیت حذف شد!!!
         </Alert>
       </Snackbar>

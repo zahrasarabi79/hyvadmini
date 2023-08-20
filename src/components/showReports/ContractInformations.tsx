@@ -1,6 +1,7 @@
 import { Grid, Stack, Typography } from "@mui/material";
+import { IContractInformations } from "../interface/Interfaces";
 
-const ContractInformations = ({ contract }: any) => {
+const ContractInformations: React.FC<IContractInformations> = ({ contract }) => {
   return (
     <Grid
       container

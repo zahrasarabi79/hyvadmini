@@ -1,6 +1,7 @@
 import { Stack, Typography } from "@mui/material";
+import { IReportApiResponse, IShowReportComponenet } from "../interface/Interfaces";
 
-const Report = ({ report }: any) => {
+const Report: React.FC<IShowReportComponenet> = ({ report }) => {
   return (
     <Stack sx={{ px: 8, py: 2, borderRadius: 2, justifyContent: "space-between", gap: 2, border: "1px solid #3b82f6" }}>
       <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>

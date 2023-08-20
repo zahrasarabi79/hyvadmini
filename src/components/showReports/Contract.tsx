@@ -7,16 +7,28 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Deletebtn from "../buttons/deletebtn";
 import EditBtn from "../buttons/editbtn";
+import { IContractApiResponse, IReportApiResponse, IpassengersApiResponse } from "../interface/Interfaces";
 
 const Contract = () => {
-  const [contract, setContract] = useState();
-  const [passengers, setPassengers] = useState();
-  const [reports, setReports] = useState();
+  const [contract, setContract] = useState<IContractApiResponse>({
+    id: NaN,
+    typeReport: "",
+    dateContract: "",
+    numContract: "",
+    passengers: [],
+    report: [],
+  });
+  const [passengers, setPassengers] = useState<IpassengersApiResponse[]>([{ id: NaN, passenger: "", contractId: NaN }]);
+  const [reports, setReports] = useState<IReportApiResponse[]>([
+    { id: NaN, number: NaN, costTitle: "", presenter: "", datepayment: "", payments: "", bank: "", contractId: NaN },
+  ]);
 
   const { id } = useParams();
   const getContract = async () => {
     try {
       const { data } = await axiosInstance.post("/showReports", { id });
+      console.log(data.Contracts[0].passengers);
+
       setContract(data.Contracts[0]);
       setPassengers(data.Contracts[0].passengers);
       setReports(data.Contracts[0].report);

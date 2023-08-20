@@ -1,17 +1,18 @@
-import { CardHeader, Grid, Stack, Typography } from "@mui/material";
+import { Card, Button, CardHeader, Grid, Stack, Typography } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+
 import ContractInfoInputs from "./ContractInfoInputs";
 import PassengersInputs from "./passengersInputs";
 import BuySellInformation from "./BuySellInformation";
-import { useState, useEffect } from "react";
-import { Button } from "@mui/material";
-import { Card } from "@mui/material";
 import axiosInstance from "../axios/axiosInstance";
-import { useNavigate, useParams } from "react-router-dom";
+import { IContract, IPassenger, IReport, IReportError } from "../interface/Interfaces";
+
 const FormContractInputs = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const [report, setReport] = useState([
+  const [report, setReport] = useState<IReport[]>([
     {
       number: "",
       costTitle: "",
@@ -21,7 +22,7 @@ const FormContractInputs = () => {
       datepayment: "",
     },
   ]);
-  const [contract, setContract] = useState({
+  const [contract, setContract] = useState<IContract>({
     dateContract: "",
     numContract: "",
     typeReport: "خرید",
@@ -32,7 +33,7 @@ const FormContractInputs = () => {
   const [dateContractError, setDateContractError] = useState(false);
   const [numContractError, setNumContractError] = useState(false);
   const [passengersError, setPassengersError] = useState(false);
-  const [reportError, setReportError] = useState([
+  const [reportError, setReportError] = useState<IReportError[]>([
     {
       number: false,
       costTitle: false,
@@ -60,20 +61,29 @@ const FormContractInputs = () => {
 
   const saveContract = async () => {
     try {
-      console.log(contract);
       const { data } = await axiosInstance.post("/AddReports", contract);
-      console.log(data.id);
       navigate(`/showReport/${data.id}`);
-    } catch (error: any) {
-      console.log("problem");
+    } catch (error) {
+      console.log("problem:", error);
     }
   };
   const getContract = async () => {
     try {
       const { data } = await axiosInstance.post("/showReports", { id });
       const { dateContract, numContract, typeReport, passengers, report } = data.Contracts[0];
-      const passengerNames = passengers.map(({ passenger }: any) => passenger);
-      const ReportData = report.map((obj: any) => ({
+      console.log(passengers);
+
+      const passengerNames = passengers.map(({ passenger }: IPassenger) => passenger);
+
+      setContract({
+        dateContract,
+        numContract,
+        typeReport,
+        passengers: [...passengerNames],
+        report: [],
+      });
+
+      const ReportData = report.map((obj: IReport) => ({
         number: obj.number,
         costTitle: obj.costTitle,
         presenter: obj.presenter,
@@ -81,35 +91,27 @@ const FormContractInputs = () => {
         payments: obj.payments,
         datepayment: obj.datepayment,
       }));
-
-      setContract({
-        dateContract,
-        numContract,
-        typeReport,
-        passengers: [...passengerNames],
-      });
       setReport([...ReportData]);
     } catch (error: any) {
-      console.log("problem");
+      console.log("problem:", error);
     }
   };
+
   const updateDataContract = async () => {
     try {
-      const { data } = await axiosInstance.post("/updateReports", { ...contract, id, report });
+      const { data } = await axiosInstance.post("/updateReports", { ...contract, id });
       navigate(`/showReport/${data.findContract.id}`);
     } catch (error: any) {
       console.log("problem");
     }
   };
-  const updateContract = (updatedContract: any) => {
+  const updateContract = (updatedContract: IContract) => {
     setContract(updatedContract);
   };
-  const validateReportArray = (reportArray) => {
-    console.log("newState[index].number");
-
-    reportArray.forEach((item, index) => {
-      setReportError((prevStates) => {
-        const newState = [...prevStates];
+  const validateReportArray = (reportArray: IReport[]) => {
+    reportArray.forEach((item: IReport, index: number) => {
+      setReportError((prevStates: IReportError[]) => {
+        const newState: IReportError[] = [...prevStates];
         newState[index] = newState[index] || {};
         newState[index].number = item.number.toString().trim() === "" ? true : false;
         newState[index].costTitle = item.costTitle.trim() === "" ? true : false;
@@ -126,14 +128,19 @@ const FormContractInputs = () => {
     contract.dateContract.trim() === "" ? setDateContractError(true) : setDateContractError(false);
     contract.numContract.trim() === "" ? setNumContractError(true) : setNumContractError(false);
     contract.passengers.length === 0 ? setPassengersError(true) : setPassengersError(false);
-    id ? validateReportArray(contract.report) : validateReportArray(contract.report);
+    validateReportArray(contract.report);
   };
 
-  const handelSubmit = async (e: any) => {
+  const handelSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await handelCantractInfoError();
+    const isFormValid: boolean =
+      !dateContractError &&
+      !numContractError &&
+      !passengersError &&
+      reportError.every((error: IReportError) => Object.values(error).every((value: boolean) => value === false));
 
-    id ? updateDataContract() : saveContract();
+    isFormValid ? (id ? updateDataContract() : saveContract()) : false;
   };
 
   return (

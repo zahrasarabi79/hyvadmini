@@ -1,14 +1,12 @@
 import { Stack } from "@mui/material";
 import { CssTextField } from "./TextFildCustom";
 import { Button, Card } from "@mui/material";
-import { useState } from "react";
+import { IReport, IReportcomponent } from "../interface/Interfaces";
 
-const Report = ({ index, item, handleChange, setReport, contract, reportError }: any) => {
+const Report: React.FC<IReportcomponent> = ({ index, item, handleChange, setReport, reportError }) => {
   const onDelete = () => {
-    setReport((prev) => [...prev.filter((item, i) => i !== index && item["number"] !== "")]);
+    setReport((prev: IReport[]) => [...prev.filter((item: IReport, i: number) => i !== index && item["number"] !== "")]);
   };
-  console.log(reportError);
-
   return (
     <Card
       sx={{
@@ -25,7 +23,7 @@ const Report = ({ index, item, handleChange, setReport, contract, reportError }:
           label="تعداد"
           fullWidth
           value={item.number}
-          onChange={(e) => handleChange(e, index, "number")}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e, index, "number")}
           type="number"
           error={reportError?.number}
           helperText={reportError?.number ? "تعداد را وارد کنید" : ""}
@@ -35,7 +33,7 @@ const Report = ({ index, item, handleChange, setReport, contract, reportError }:
           label="عنوان هزینه"
           fullWidth
           value={item.costTitle}
-          onChange={(e) => handleChange(e, index, "costTitle")}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e, index, "costTitle")}
           error={reportError?.costTitle}
           helperText={reportError?.costTitle ? "تعداد را وارد کنید" : ""}
           required
@@ -44,7 +42,7 @@ const Report = ({ index, item, handleChange, setReport, contract, reportError }:
           label="مجری"
           fullWidth
           value={item.presenter}
-          onChange={(e) => handleChange(e, index, "presenter")}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e, index, "presenter")}
           error={reportError?.presenter}
           helperText={reportError?.presenter ? "تعداد را وارد کنید" : ""}
           required
@@ -55,7 +53,7 @@ const Report = ({ index, item, handleChange, setReport, contract, reportError }:
           label="بانک"
           fullWidth
           value={item.bank}
-          onChange={(e) => handleChange(e, index, "bank")}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e, index, "bank")}
           error={reportError?.bank}
           helperText={reportError?.bank ? "تعداد را وارد کنید" : ""}
           required
@@ -64,7 +62,7 @@ const Report = ({ index, item, handleChange, setReport, contract, reportError }:
           label="هزینه ها"
           fullWidth
           value={item.payments}
-          onChange={(e) => handleChange(e, index, "payments")}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e, index, "payments")}
           error={reportError?.payments}
           helperText={reportError?.payments ? "تعداد را وارد کنید" : ""}
           required
@@ -73,17 +71,13 @@ const Report = ({ index, item, handleChange, setReport, contract, reportError }:
           label="تاریخ"
           fullWidth
           value={item.datepayment}
-          onChange={(e) => handleChange(e, index, "datepayment")}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleChange(e, index, "datepayment")}
           error={reportError?.datepayment}
           helperText={reportError?.datepayment ? "تعداد را وارد کنید" : ""}
           required
         />
       </Stack>
-      <Button
-        onClick={onDelete}
-        variant="contained"
-        sx={{ mt: 3, justifyContent: "center", width: "100%" }}
-      >
+      <Button onClick={onDelete} variant="contained" sx={{ mt: 3, justifyContent: "center", width: "100%" }}>
         delete
       </Button>
     </Card>

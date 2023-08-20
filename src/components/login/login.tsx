@@ -1,27 +1,28 @@
-import { Button, TextField, Typography } from "@mui/material";
-import { Box, Container } from "@mui/system";
-import axiosInstance from "../axios/axiosInstance";
+import { Button, Typography, Box, Container } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CssTextField } from "../edditOrAddReports/TextFildCustom";
+import axiosInstance from "../axios/axiosInstance";
+import { IUser, Token } from "../interface/Interfaces";
 
 const LogIn = () => {
   const navigate = useNavigate();
   const [token, setToken] = useState("");
 
-  const handleSubmit = async (event: any) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const inputValue = new FormData(event.currentTarget);
-    const user = {
+    const user: IUser = {
       username: inputValue.get("username"),
       password: inputValue.get("password"),
     };
     await getResponse(user);
   };
-  const getResponse = async (user: any) => {
+
+  const getResponse = async (user: IUser) => {
     try {
-      const res = await axiosInstance.post("/login", user);
-      await getToken(res);
+      const { data } = await axiosInstance.post("/login", user);
+      await getToken(data);
     } catch (error: any) {
       if (error.response.status === 401) {
         console.log("401 error");
@@ -31,8 +32,9 @@ const LogIn = () => {
       }
     }
   };
-  const getToken = async (response: any) => {
-    setToken(response.data.token);
+
+  const getToken = async (response: Token) => {
+    setToken(response.token);
   };
 
   useEffect(() => {
@@ -46,7 +48,7 @@ const LogIn = () => {
     <Container component="main" maxWidth="sm">
       <Box
         sx={{
-          boxShadow: 3,
+          // boxShadow: 3,
           borderRadius: 2,
           px: 4,
           py: 6,
@@ -54,11 +56,12 @@ const LogIn = () => {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          bgcolor: "rgba(255, 255, 255, 0.4)",
+          border: "1px solid #3b82f6",
+          // bgcolor: "rgba(255, 255, 255, 0.4)",
         }}
       >
         <Typography component="h1" variant="h5">
-          Login In
+          Log In
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
           <CssTextField
@@ -72,7 +75,7 @@ const LogIn = () => {
             autoComplete="username"
             autoFocus
           />
-          
+
           <CssTextField
             color="warning"
             margin="normal"
@@ -84,13 +87,7 @@ const LogIn = () => {
             id="password"
             autoComplete="current-password"
           />
-          <Button
-            type="submit"
-            color="secondary"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
+          <Button type="submit" color="secondary" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Log In
           </Button>
         </Box>

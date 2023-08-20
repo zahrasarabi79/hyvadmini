@@ -7,22 +7,29 @@ export const CssTextField = styled(TextField)({
   input: { color: "white" },
 
   "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-    "WebkitAppearance": "none",
+    WebkitAppearance: "none",
     margin: 0,
   },
   '& input[type="number"]': {
-    "MozAppearance": "textfield",
+    MozAppearance: "textfield",
   },
- 
+
+  "& input:-webkit-autofill, & input:-webkit-autofill:hover, & input:-webkit-autofill:focus, & textarea:-webkit-autofill, & textarea:-webkit-autofill:hover, & textarea:-webkit-autofill:focus, & select:-webkit-autofill, & select:-webkit-autofill:hover, & select:-webkit-autofill:focus":
+    {
+      "-webkit-text-fill-color": "white",
+      "-webkit-box-shadow": "0 0 0px 1000px rgba(255, 255, 255, 0.0) inset",
+      transition: "background-color 5000s ease-in-out 0s",
+    },
+
   // when focuse lable become red
   "& label.Mui-focused": {
     color: "#3b82f6",
-    fontSize: 20,
-    background: "#312e81",
+    // fontSize: 20,
+    // background: "#312e81",
   },
   "& label": {
     color: "#3b82f6",
-    fontSize: 20,
+    // fontSize: 20,
   },
   "&:hover label.Mui-focused": {
     color: "#3b82f6",

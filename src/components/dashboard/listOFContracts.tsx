@@ -2,14 +2,15 @@ import { Box, Grid, Typography } from "@mui/material";
 import ContractCard from "./contractCard";
 import { useEffect, useState } from "react";
 import axiosInstance from "../axios/axiosInstance";
+import { IContractApiResponse } from "../interface/Interfaces";
 
 const ListOfContracts = () => {
-  const [listOfContracts, setListOfContracts]: any = useState([]);
+  const [listOfContracts, setListOfContracts] = useState<IContractApiResponse[]>([]);
 
   const getListOfReports = async () => {
     try {
-      const res = await axiosInstance.post("/listOfReports");
-      setListOfContracts(res.data.Contracts);
+      const { data } = await axiosInstance.post("/listOfReports");
+      setListOfContracts(data.Contracts);
     } catch (error: any) {
       if (error.response.status === 401) {
         console.log("401 error");
@@ -23,7 +24,6 @@ const ListOfContracts = () => {
     getListOfReports();
   }, []);
 
-  
   return (
     <Grid item xs={9}>
       <Typography

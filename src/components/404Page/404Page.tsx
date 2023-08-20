@@ -1,5 +1,4 @@
-import { Grid, Box, Button, Container, Typography } from "@mui/material";
-import { Stack } from "@mui/system";
+import { Grid, Box, Button, Container, Typography, Stack } from "@mui/material";
 import { Link } from "react-router-dom";
 const NotPage = () => {
   return (

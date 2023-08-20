@@ -1,7 +1,5 @@
-import { Grid, Container, Button, Typography, Box } from "@mui/material";
-import { Stack } from "@mui/system";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Grid, Container, Button, Typography, Box, Stack } from "@mui/material";
+import { useNavigate, Link } from "react-router-dom";
 const ContractCard = ({ contract }: any) => {
   const navigate = useNavigate();
   const showReportPage = () => {
@@ -19,13 +17,7 @@ const ContractCard = ({ contract }: any) => {
         <Grid container spacing={6} alignItems={"center"}>
           <Grid item xs={3}>
             <Link to={`/showReport/${contract.id}`}>
-              <Button
-                onClick={showReportPage}
-                variant="contained"
-                color="primary"
-                fullWidth
-                sx={{ boxShadow: "none", fontSize: 20 }}
-              >
+              <Button onClick={showReportPage} variant="contained" color="primary" fullWidth sx={{ boxShadow: "none", fontSize: 20 }}>
                 مشاهده
               </Button>
             </Link>

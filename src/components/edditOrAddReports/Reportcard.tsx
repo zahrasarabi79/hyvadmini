@@ -1,31 +1,20 @@
 import { Stack, Button } from "@mui/material";
 import Report from "./Report";
-import { useParams } from "react-router-dom";
-import { useState } from "react";
-// const [newState, setNewState] = useState([]);
-// console.log(newState);
+import { IContract, IReport, IReportCard, IReportError } from "../interface/Interfaces";
 
-const ReportCard = ({
-  contract,
-  report,
-  setReport,
-  updateContract,
-  reportError,
-  setReportError,
-}: any) => {
-  const { id } = useParams();
-  const handleChange = (e: any, index: number, value: string) => {
+const ReportCard: React.FC<IReportCard> = ({ contract, report, setReport, updateContract, reportError, setReportError }) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, index: number, value: string) => {
     !!report[index] && (report[index][value] = e.target.value);
     setReport([...report]);
-    setReportError((prevStates) => {
-      const newState = [...prevStates];
-      newState[index][value] =report[index][value].trim() === "" ? true : false;
+    setReportError((prevStates: IReportError[]) => {
+      const newState: IReportError[] = [...prevStates];
+      newState[index][value] = report[index][value].trim() === "" ? true : false;
       return newState;
     });
   };
 
   const handelAddRow = () => {
-    setReport((prev: any) => [
+    setReport((prev: IReport[]) => [
       {
         number: "",
         costTitle: "",
@@ -36,7 +25,7 @@ const ReportCard = ({
       },
       ...prev.filter((item: any) => item["number"] !== ""),
     ]);
-    setReportError((prev: any) => [
+    setReportError((prev: IReportError[]) => [
       {
         number: false,
         costTitle: false,
@@ -47,7 +36,7 @@ const ReportCard = ({
       },
       ...prev,
     ]);
-    const updatedContract = {
+    const updatedContract: IContract = {
       ...contract,
       report,
     };
@@ -56,17 +45,8 @@ const ReportCard = ({
 
   return (
     <Stack sx={{ padding: 2, gap: 2 }}>
-      {report.map((item: any, index: any) => (
-        <Report
-          key={index}
-          index={index}
-          item={item}
-          handleChange={handleChange}
-          setReport={setReport}
-          contract={contract}
-          reportError={reportError[index]}
-          setReportError={setReportError}
-        />
+      {report.map((item: IReport, index: number) => (
+        <Report key={index} index={index} item={item} handleChange={handleChange} setReport={setReport} reportError={reportError[index]} />
       ))}
 
       <Button onClick={handelAddRow} variant="contained" color="primary" sx={{ fontSize: 20 }}>
@@ -77,12 +57,3 @@ const ReportCard = ({
 };
 
 export default ReportCard;
-
-// const handleDeleteReport = (reportIndex: any) => {
-//   const updatedReports = report.filter((item: any, index: any) => {
-//     // console.log(item["costTitle"]);
-
-//     return index !== reportIndex && item["costTitle"] !== "";
-//   });
-
-// };
