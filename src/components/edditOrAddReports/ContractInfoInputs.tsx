@@ -18,6 +18,10 @@ const ContractInfoInputs: React.FC<IContractInfoInputs> = ({
     setContract((prev: IContract) => ({ ...prev, [e.target.name]: e.target.value }));
     setNumContractError(false);
   };
+  const handelChangetypeReport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target as HTMLInputElement;
+    setContract((prev: IContract) => ({ ...prev, [name]: value }));
+  };
 
   return (
     <Stack dir="rtl">
@@ -53,10 +57,9 @@ const ContractInfoInputs: React.FC<IContractInfoInputs> = ({
         >
           نوع گزارش
         </FormLabel>
-        <RadioGroup row name="typeReport" value={contract.typeReport}>
+        <RadioGroup row name="typeReport" onChange={handelChangetypeReport} value={contract.typeReport}>
           <FormControlLabel
             value="خرید"
-            onChange={(e: any) => setContract((prev: any) => ({ ...prev, [e.target.name]: e.target.value }))}
             control={
               <Radio
                 sx={{
@@ -71,7 +74,6 @@ const ContractInfoInputs: React.FC<IContractInfoInputs> = ({
           />
           <FormControlLabel
             value="فروش"
-            onChange={(e: any) => setContract((prev: any) => ({ ...prev, [e.target.name]: e.target.value }))}
             control={
               <Radio
                 sx={{

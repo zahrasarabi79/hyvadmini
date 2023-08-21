@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { CssTextField } from "../edditOrAddReports/TextFildCustom";
 import axiosInstance from "../axios/axiosInstance";
 import { IUser, Token } from "../interface/Interfaces";
+import { AxiosError } from "axios";
 
 const LogIn = () => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const LogIn = () => {
     try {
       const { data } = await axiosInstance.post("/login", user);
       await getToken(data);
-    } catch (error: any) {
+    } catch (error: AxiosError|any) {
       if (error.response.status === 401) {
         console.log("401 error");
       }

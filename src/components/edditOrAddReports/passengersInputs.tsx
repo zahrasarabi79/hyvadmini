@@ -20,8 +20,7 @@ const PassengersInputs: React.FC<IPassengersInputs> = ({ contract, updateContrac
   };
 
   const handleDeletePassenger = (passengerIndex: number) => {
-    const updatedPassengers: string[] = contract.passengers.filter((_: any, index: number) => index !== passengerIndex);
-
+    const updatedPassengers: string[] = contract.passengers.filter((_, index: number) => index !== passengerIndex);
     const updatedContract: IContract = {
       ...contract,
       passengers: updatedPassengers,

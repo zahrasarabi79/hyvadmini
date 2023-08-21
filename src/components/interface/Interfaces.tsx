@@ -107,6 +107,11 @@ export interface IReportsInfo {
 export interface IShowReportComponenet {
   report: IReportApiResponse;
 }
+export interface IPassengerCard {
+  passengername: string;
+  onDelete: (passengerIndex: number) => void;
+}
+
 // log in
 export interface Token {
   token: string;

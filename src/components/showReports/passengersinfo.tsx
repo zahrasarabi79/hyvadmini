@@ -1,6 +1,6 @@
 import { Stack, Typography } from "@mui/material";
 import Passenger from "./passenger";
-import { IPassengersInfo } from "../interface/Interfaces";
+import { IPassengersInfo, IShowpassengerComponenet } from "../interface/Interfaces";
 
 const PassengersInfo: React.FC<IPassengersInfo> = ({ passengers }) => {
   return (
@@ -8,8 +8,10 @@ const PassengersInfo: React.FC<IPassengersInfo> = ({ passengers }) => {
       <Typography component="span" sx={{ fontSize: 20 }}>
         مسافران:
       </Typography>
-      {passengers?.map((passengerObj: any) => (
-        <Passenger key={passengerObj.id} passenger={passengerObj.passenger} />
+      {passengers?.map((passengerObj) => (
+        <Typography component="span" sx={{ fontSize: 20 }} key={passengerObj.id}>
+          {passengerObj.passenger} ,
+        </Typography>
       ))}
     </Stack>
   );

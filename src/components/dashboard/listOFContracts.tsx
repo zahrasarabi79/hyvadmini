@@ -3,6 +3,7 @@ import ContractCard from "./contractCard";
 import { useEffect, useState } from "react";
 import axiosInstance from "../axios/axiosInstance";
 import { IContractApiResponse } from "../interface/Interfaces";
+import { AxiosError } from "axios";
 
 const ListOfContracts = () => {
   const [listOfContracts, setListOfContracts] = useState<IContractApiResponse[]>([]);
@@ -11,7 +12,7 @@ const ListOfContracts = () => {
     try {
       const { data } = await axiosInstance.post("/listOfReports");
       setListOfContracts(data.Contracts);
-    } catch (error: any) {
+    } catch (error: AxiosError | any) {
       if (error.response.status === 401) {
         console.log("401 error");
       }
@@ -51,7 +52,7 @@ const ListOfContracts = () => {
           gap: 2,
         }}
       >
-        {listOfContracts.map((contract: any) => (
+        {listOfContracts.map((contract) => (
           <ContractCard key={contract.id} contract={contract} />
         ))}
       </Box>

@@ -1,6 +1,8 @@
 import { Grid, Container, Button, Typography, Box, Stack } from "@mui/material";
+import React from "react";
 import { useNavigate, Link } from "react-router-dom";
-const ContractCard = ({ contract }: any) => {
+import {  IContractInformations } from "../interface/Interfaces";
+const ContractCard:React.FC<IContractInformations> = ({ contract }) => {
   const navigate = useNavigate();
   const showReportPage = () => {
     navigate("/showReport");

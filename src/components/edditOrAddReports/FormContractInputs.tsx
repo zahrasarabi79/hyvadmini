@@ -7,6 +7,7 @@ import PassengersInputs from "./passengersInputs";
 import BuySellInformation from "./BuySellInformation";
 import axiosInstance from "../axios/axiosInstance";
 import { IContract, IPassenger, IReport, IReportError } from "../interface/Interfaces";
+import { AxiosError } from "axios";
 
 const FormContractInputs = () => {
   const navigate = useNavigate();
@@ -92,7 +93,7 @@ const FormContractInputs = () => {
         datepayment: obj.datepayment,
       }));
       setReport([...ReportData]);
-    } catch (error: any) {
+    } catch (error: AxiosError | any) {
       console.log("problem:", error);
     }
   };
@@ -101,7 +102,7 @@ const FormContractInputs = () => {
     try {
       const { data } = await axiosInstance.post("/updateReports", { ...contract, id });
       navigate(`/showReport/${data.findContract.id}`);
-    } catch (error: any) {
+    } catch (error: AxiosError | any) {
       console.log("problem");
     }
   };

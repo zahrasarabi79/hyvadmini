@@ -23,7 +23,7 @@ const ReportCard: React.FC<IReportCard> = ({ contract, report, setReport, update
         payments: "",
         datepayment: "",
       },
-      ...prev.filter((item: any) => item["number"] !== ""),
+      ...prev.filter((item: IReport) => item["number"] !== ""),
     ]);
     setReportError((prev: IReportError[]) => [
       {

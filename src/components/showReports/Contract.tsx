@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import Deletebtn from "../buttons/deletebtn";
 import EditBtn from "../buttons/editbtn";
 import { IContractApiResponse, IReportApiResponse, IpassengersApiResponse } from "../interface/Interfaces";
+import { AxiosError } from "axios";
 
 const Contract = () => {
   const [contract, setContract] = useState<IContractApiResponse>({
@@ -32,7 +33,7 @@ const Contract = () => {
       setContract(data.Contracts[0]);
       setPassengers(data.Contracts[0].passengers);
       setReports(data.Contracts[0].report);
-    } catch (error: any) {
+    } catch (error: AxiosError | any) {
       console.log("problem");
     }
   };

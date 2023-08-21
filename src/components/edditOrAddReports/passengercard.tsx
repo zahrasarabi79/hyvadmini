@@ -1,7 +1,7 @@
 import { Chip } from "@mui/material";
-import { Box } from "@mui/system";
-import { TiDelete } from "react-icons/ti";
-const PassengerCard = ({ passengername, onDelete }: any) => {
+import { IPassengerCard } from "../interface/Interfaces";
+
+const PassengerCard: React.FC<IPassengerCard> = ({ passengername, onDelete }) => {
   return (
     <>
       {passengername !== "" && (
