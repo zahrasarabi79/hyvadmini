@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Card, CardActions, CardContent, CardHeader, Grid, Stack, Typography } from "@mui/material";
 import ContractInformations from "./ContractInformations";
 import PassengersInfo from "./PassengersInfo";
 import ReportsInfo from "./ReportInfo";
@@ -43,48 +43,29 @@ const Contract = () => {
   }, []);
 
   return (
-    <Grid item xs={9}>
-      <Typography
-        variant="body1"
-        sx={{
-          p: 2,
-          fontSize: 20,
-          color: "white",
-          background: "#3b82f6",
-          borderTopLeftRadius: 6,
-          borderTopRightRadius: 6,
-        }}
-      >
-        Contract Information
-      </Typography>
-
-      <Box
-        sx={{
-          bgcolor: "#312e81",
-          p: 2,
-          borderBottomLeftRadius: 6,
-          borderBottomRightRadius: 6,
-          display: "flex",
-          flexDirection: "column",
-          gap: 2,
-        }}
-      >
+    <Card>
+      <CardHeader title="Contract Information" sx={{ borderBottom: "3px solid rgba(255, 122, 0, 1)" }} />
+      <CardContent>
         <Stack sx={{ p: 2, gap: 2, borderRadius: 4 }}>
           <Typography variant="h4" sx={{ color: "white", textAlign: "center", p: 2 }}>
             گزارش خرید و فروش هیواد پرواز کیش
           </Typography>
           <ContractInformations contract={contract} />
           <PassengersInfo passengers={passengers} />
-
           <ReportsInfo reports={reports} />
-
-          <Stack direction={"row"} gap={4} pt={4}>
-            <EditBtn id={id} />
-            <Deletebtn />
-          </Stack>
+          <CardActions sx={{ gap: 2 }}>
+            <Grid container direction={["column", "row"]} spacing={2} >
+              <Grid item xs={12} md={6}>
+                <EditBtn id={id} />
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Deletebtn />
+              </Grid>
+            </Grid>
+          </CardActions>
         </Stack>
-      </Box>
-    </Grid>
+      </CardContent>
+    </Card>
   );
 };
 

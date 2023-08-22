@@ -6,8 +6,12 @@ const ShowReport = () => {
   return (
     <Container maxWidth={false} sx={{ m: 3, width: "auto" }}>
       <Grid container spacing={3}>
-        <Contract />
-        <WelcomeCard />
+        <Grid item xs={12} lg={3}>
+          <WelcomeCard />
+        </Grid>
+        <Grid item xs={12} lg={9}>
+          <Contract />
+        </Grid>
       </Grid>
     </Container>
   );

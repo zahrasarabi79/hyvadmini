@@ -1,4 +1,4 @@
-import { Card, Button, CardHeader, Grid, Stack, Typography } from "@mui/material";
+import { Card, Button, CardHeader, Stack, Typography, Paper } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -10,6 +10,8 @@ import { IContract, IPassenger, IReport, IReportError } from "../interface/Inter
 import { AxiosError } from "axios";
 
 const FormContractInputs = () => {
+  console.log("222");
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -69,11 +71,14 @@ const FormContractInputs = () => {
     }
   };
   const getContract = async () => {
+   
+
     try {
       const { data } = await axiosInstance.post("/showReports", { id });
       const { dateContract, numContract, typeReport, passengers, report } = data.Contracts[0];
       console.log(passengers);
-
+      
+  
       const passengerNames = passengers.map(({ passenger }: IPassenger) => passenger);
 
       setContract({
@@ -126,7 +131,7 @@ const FormContractInputs = () => {
   };
 
   const handelCantractInfoError = async () => {
-    contract.dateContract.trim() === "" ? setDateContractError(true) : setDateContractError(false);
+    contract.dateContract ? setDateContractError(true) : setDateContractError(false);
     contract.numContract.trim() === "" ? setNumContractError(true) : setNumContractError(false);
     contract.passengers.length === 0 ? setPassengersError(true) : setPassengersError(false);
     validateReportArray(contract.report);
@@ -145,32 +150,12 @@ const FormContractInputs = () => {
   };
 
   return (
-    <Grid item xs={9}>
-      <Card
-        sx={{
-          bgcolor: "#312e81",
-          pb: 2,
-          borderBottomLeftRadius: 6,
-          borderBottomRightRadius: 6,
-          display: "flex",
-          flexDirection: "column",
-          gap: 2,
-        }}
-      >
+    <>
+      <Card>
         <CardHeader
-          sx={{
-            color: "white",
-            background: "#3b82f6",
-            borderTopLeftRadius: 6,
-            borderTopRightRadius: 6,
-          }}
+          sx={{ borderBottom: "3px solid rgba(255, 122, 0, 1)" }}
           title={
-            <Typography
-              variant="body1"
-              sx={{
-                fontSize: 20,
-              }}
-            >
+            <Typography variant="body1" sx={{ fontSize: 20 }}>
               Contract Information
             </Typography>
           }
@@ -181,7 +166,7 @@ const FormContractInputs = () => {
             گزارش خرید و فروش هیواد پرواز کیش
           </Typography>
           <form noValidate onSubmit={handelSubmit}>
-            <ContractInfoInputs
+          <ContractInfoInputs
               contract={contract}
               setContract={setContract}
               setDateContractError={setDateContractError}
@@ -209,7 +194,7 @@ const FormContractInputs = () => {
           </form>
         </Stack>
       </Card>
-    </Grid>
+    </>
   );
 };
 

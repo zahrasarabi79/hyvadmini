@@ -1,4 +1,4 @@
-import { Stack, Button } from "@mui/material";
+import { Card, Button, CardContent, CardActions, Grid } from "@mui/material";
 import Report from "./Report";
 import { IContract, IReport, IReportCard, IReportError } from "../interface/Interfaces";
 
@@ -44,15 +44,20 @@ const ReportCard: React.FC<IReportCard> = ({ contract, report, setReport, update
   };
 
   return (
-    <Stack sx={{ padding: 2, gap: 2 }}>
-      {report.map((item: IReport, index: number) => (
-        <Report key={index} index={index} item={item} handleChange={handleChange} setReport={setReport} reportError={reportError[index]} />
-      ))}
-
-      <Button onClick={handelAddRow} variant="contained" color="primary" sx={{ fontSize: 20 }}>
-        افزودن گزارش
-      </Button>
-    </Stack>
+    <Card sx={{ boxShadow: "none" }}>
+      <CardContent>
+        <Grid container spacing={2}>
+          {report.map((item: IReport, index: number) => (
+            <Report key={index} index={index} item={item} handleChange={handleChange} setReport={setReport} reportError={reportError[index]} />
+          ))}
+        </Grid>
+      </CardContent>
+      <CardActions>
+        <Button fullWidth onClick={handelAddRow} variant="outlined" color="primary" sx={{ fontSize: 20 }}>
+          افزودن گزارش
+        </Button>
+      </CardActions>
+    </Card>
   );
 };
 

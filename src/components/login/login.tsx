@@ -88,7 +88,7 @@ const LogIn = () => {
             id="password"
             autoComplete="current-password"
           />
-          <Button type="submit" color="secondary" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+          <Button type="submit" color="primary" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Log In
           </Button>
         </Box>

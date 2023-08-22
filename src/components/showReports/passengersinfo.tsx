@@ -1,19 +1,22 @@
-import { Stack, Typography } from "@mui/material";
-import Passenger from "./passenger";
-import { IPassengersInfo, IShowpassengerComponenet } from "../interface/Interfaces";
+import { Card, CardContent, CardHeader, Grid, Typography } from "@mui/material";
+import { IPassengersInfo } from "../interface/Interfaces";
 
 const PassengersInfo: React.FC<IPassengersInfo> = ({ passengers }) => {
   return (
-    <Stack dir="rtl" direction={"row"} sx={{ px: 10, py: 4, borderRadius: 2, gap: 1, border: "1px solid #3b82f6" }}>
-      <Typography component="span" sx={{ fontSize: 20 }}>
-        مسافران:
-      </Typography>
-      {passengers?.map((passengerObj) => (
-        <Typography component="span" sx={{ fontSize: 20 }} key={passengerObj.id}>
-          {passengerObj.passenger} ,
-        </Typography>
-      ))}
-    </Stack>
+    <Card dir="rtl" sx={{ boxShadow: "none" }}>
+      <CardHeader title="اسامی طرف قرارداد" sx={{ borderBottom: "3px solid #3b82f6" }} />
+      <CardContent>
+        <Grid container sx={{ border: "1px solid #3b82f6", borderRadius: 2, p: 2 }}>
+          {passengers?.map((passengerObj) => (
+            <Grid item xs={12}>
+              <Typography component="span" sx={{ fontSize: 20 }} key={passengerObj.id}>
+                {passengerObj.passenger} ,
+              </Typography>
+            </Grid>
+          ))}
+        </Grid>
+      </CardContent>
+    </Card>
   );
 };
 

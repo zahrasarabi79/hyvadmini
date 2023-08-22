@@ -1,39 +1,28 @@
-import { Grid, Stack, Typography } from "@mui/material";
+import { Card, CardActions, CardContent, CardHeader, Grid, Typography } from "@mui/material";
 import AddReportBtn from "../buttons/addReportBtn";
 import ListPageBtn from "../buttons/goToList";
 
 const WelcomeCard = () => {
-  return (
-    <Grid item xs={3}>
-      <Typography
-        variant="body1"
-        sx={{
-          p: 2,
-          fontSize: 20,
-          color: "white",
-          background: "#3b82f6",
-          borderTopLeftRadius: 6,
-          borderTopRightRadius: 6,
-        }}
-      >
-        Welcome
-      </Typography>
 
-      <Stack
-        sx={{
-          bgcolor: "#312e81",
-          py: 2,
-          borderBottomLeftRadius: 6,
-          borderBottomRightRadius: 6,
-        }}
-      >
+  return (
+    <Card sx={{ justifyContent: "center" }}>
+      <CardHeader sx={{ borderBottom: "3px solid rgba(255, 122, 0, 1)" }} title="Welcome" />
+      <CardContent>
         <Typography sx={{ fontSize: 20, textAlign: "center", color: "white" }} variant="body1">
           !!!! به هیواد پرواز کیش خوش آمدید
         </Typography>
-        <AddReportBtn />
-        <ListPageBtn />
-      </Stack>
-    </Grid>
+      </CardContent>
+      <CardActions>
+        <Grid container spacing={2} mx={2} justifyContent={"center"}>
+          <Grid item xs={6} lg={12} md={6}>
+            <AddReportBtn />
+          </Grid>
+          <Grid item xs={6} lg={12} md={6}>
+            <ListPageBtn />
+          </Grid>
+        </Grid>
+      </CardActions>
+    </Card>
   );
 };
 
