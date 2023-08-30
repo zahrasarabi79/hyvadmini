@@ -3,12 +3,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { CssTextField } from "../edditOrAddReports/TextFildCustom";
 import axiosInstance from "../axios/axiosInstance";
-import { IUser, Token } from "../interface/Interfaces";
+import { IUser, IUserError, Token } from "../interface/Interfaces";
 import { AxiosError } from "axios";
 
 const LogIn = () => {
   const navigate = useNavigate();
   const [token, setToken] = useState("");
+  const [logInError, setLogInError] = useState<IUserError>({ username: false, password: false });
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -17,6 +18,7 @@ const LogIn = () => {
       username: inputValue.get("username"),
       password: inputValue.get("password"),
     };
+
     await getResponse(user);
   };
 
@@ -24,12 +26,12 @@ const LogIn = () => {
     try {
       const { data } = await axiosInstance.post("/login", user);
       await getToken(data);
-    } catch (error: AxiosError|any) {
+    } catch (error: AxiosError | any) {
       if (error.response.status === 401) {
-        console.log("401 error");
+        setLogInError((prevErrors) => ({ ...prevErrors, username: true, password: true }));
       }
       if (error.response.status === 400) {
-        console.log("400 error");
+        setLogInError((prevErrors) => ({ ...prevErrors, username: true, password: true }));
       }
     }
   };
@@ -49,7 +51,6 @@ const LogIn = () => {
     <Container component="main" maxWidth="sm">
       <Box
         sx={{
-          // boxShadow: 3,
           borderRadius: 2,
           px: 4,
           py: 6,
@@ -58,7 +59,6 @@ const LogIn = () => {
           flexDirection: "column",
           alignItems: "center",
           border: "1px solid #3b82f6",
-          // bgcolor: "rgba(255, 255, 255, 0.4)",
         }}
       >
         <Typography component="h1" variant="h5">
@@ -75,6 +75,9 @@ const LogIn = () => {
             color="warning"
             autoComplete="username"
             autoFocus
+            helperText={logInError.username ? "نام کاربری را مجددا وارد کنید" : ""}
+            error={logInError.username}
+            onChange={() => setLogInError((prevErrors) => ({ ...prevErrors, username: false }))}
           />
 
           <CssTextField
@@ -87,6 +90,9 @@ const LogIn = () => {
             type="password"
             id="password"
             autoComplete="current-password"
+            helperText={logInError.password ? "پسورد را مجددا وارد کنید" : ""}
+            error={logInError.password}
+            onChange={() => setLogInError((prevErrors) => ({ ...prevErrors, password: false }))}
           />
           <Button type="submit" color="primary" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
             Log In

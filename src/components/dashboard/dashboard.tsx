@@ -5,7 +5,7 @@ import ListOfContracts from "./listOFContracts";
 const Dashboard = () => {
   return (
     <Container maxWidth={false} sx={{ m: 3, width: "auto" }}>
-      <Grid container spacing={3}>
+      <Grid direction={"row-reverse"} container spacing={3}>
         <Grid item xs={12} lg={3}>
           <WelcomeCard />
         </Grid>

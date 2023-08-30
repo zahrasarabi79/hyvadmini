@@ -4,7 +4,8 @@ import { IContract, IContractInfoInputs } from "../interface/Interfaces";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers";
-import dayjs from "dayjs";
+import { useParams } from "react-router-dom";
+// import dayjs from "dayjs";
 
 const ContractInfoInputs: React.FC<IContractInfoInputs> = ({
   contract,
@@ -14,13 +15,9 @@ const ContractInfoInputs: React.FC<IContractInfoInputs> = ({
   setDateContractError,
   dateContractError,
 }) => {
-  const handelStateDateContract = async (e: any, newDate: Date | { validationError: any }) => {
-    if ("_i" in newDate) {
-      const selected = newDate._i;
-      console.log(selected);
-    }
-
-    setContract((prev: IContract) => ({ ...prev, dateContract: newDate }));
+  const { id } = useParams();
+  const handelStateDateContract = async (newDate: null | Date) => {
+    setContract((prev: IContract) => ({ ...prev, dateContract: new Date(newDate as Date) }));
     setDateContractError(false);
   };
   const handelStateNumContract = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,19 +34,25 @@ const ContractInfoInputs: React.FC<IContractInfoInputs> = ({
       <CardHeader sx={{ borderBottom: "3px solid #fff" }} title="اطلاعات قرارداد" />
       <CardContent>
         <Grid container dir="rtl" spacing={3}>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
               <DatePicker
-                helperText={dateContractError ? "شماره قرار داد را وارد کنید" : ""}
-                error={dateContractError}
-                value={contract.dateContract}
+                sx={{ width: "100%" }}
+                value={id ? new Date(contract.dateContract) : null}
                 onChange={handelStateDateContract}
+                onError={(newError) => setDateContractError(newError as any)}
+                slotProps={{
+                  textField: {
+                    helperText: dateContractError ? "تاریخ قرار داد را وارد کنید" : "",
+                  },
+                }}
                 label="تاریخ قرارداد"
               />
             </LocalizationProvider>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} md={6}>
             <CssTextField
+              fullWidth
               name="numContract"
               value={contract.numContract}
               onChange={handelStateNumContract}

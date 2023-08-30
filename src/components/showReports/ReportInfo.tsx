@@ -1,5 +1,7 @@
 import { Card, CardContent, CardHeader, Grid, Stack, Typography } from "@mui/material";
-import { IReportApiResponse, IReportsInfo, IShowReportComponenet } from "../interface/Interfaces";
+import { IReportApiResponse, IReportPayment, IReportPaymentApiResponse, IReportsInfo, IShowReportComponenet } from "../interface/Interfaces";
+import { borderBottom } from "@mui/system";
+import React from "react";
 
 const ReportsInfo: React.FC<IReportsInfo> = ({ reports }) => {
   return (
@@ -16,8 +18,8 @@ const ReportsInfo: React.FC<IReportsInfo> = ({ reports }) => {
 
 const Report: React.FC<IShowReportComponenet> = ({ report }) => {
   return (
-    <Stack sx={{ p: 2, borderRadius: 2, justifyContent: "space-between", border: "1px solid #3b82f6", mb: 2 }}>
-      <Grid dir="rtl" spacing={2} container>
+    <Stack sx={{ p: 2, borderRadius: 2, alignItems: "center", justifyContent: "center", border: "1px solid #3b82f6", mb: 2 }}>
+      <Grid sx={{ mb: 3 }} dir="rtl" spacing={2} container>
         <Grid item xs={12} sm={6} md={4}>
           <Stack direction={"row"} gap={1}>
             <Typography component="span" sx={{ fontSize: 20 }}>
@@ -48,36 +50,45 @@ const Report: React.FC<IShowReportComponenet> = ({ report }) => {
             </Typography>
           </Stack>
         </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Stack direction={"row"} gap={1}>
-            <Typography component="span" sx={{ fontSize: 20 }}>
-              بانک/شرکاء :
-            </Typography>
-            <Typography component="span" sx={{ fontSize: 20 }}>
-              {report.bank}
-            </Typography>
-          </Stack>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Stack direction={"row"} gap={1}>
-            <Typography component="span" sx={{ fontSize: 20 }}>
-              تاریخ پرداخت :
-            </Typography>
-            <Typography component="span" sx={{ fontSize: 20 }}>
-              {report.datepayment}
-            </Typography>
-          </Stack>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <Stack direction={"row"} gap={1}>
-            <Typography component="span" sx={{ fontSize: 20 }}>
-              مبلغ پرداختی :
-            </Typography>
-            <Typography component="span" sx={{ fontSize: 20 }}>
-              {report.payments}
-            </Typography>
-          </Stack>
-        </Grid>
+      </Grid>
+      <Grid sx={{ justifyContent: "center", alignItems: "center" }} dir="rtl" spacing={2} container>
+        {report.reportPayment?.map((payment: IReportPaymentApiResponse, index: number) => (
+          <React.Fragment key={index}>
+            <Grid item xs={12} sm={6} md={0.3}>
+              {index + 1})
+            </Grid>
+            <Grid item xs={12} sm={6} md={4.7}>
+              <Stack direction={"row"} gap={1}>
+                <Typography component="span" sx={{ fontSize: 20 }}>
+                  بانک/شرکاء :
+                </Typography>
+                <Typography component="span" sx={{ fontSize: 20 }}>
+                  {payment.bank}
+                </Typography>
+              </Stack>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <Stack direction={"row"} gap={1}>
+                <Typography component="span" sx={{ fontSize: 20 }}>
+                  تاریخ پرداخت :
+                </Typography>
+                <Typography component="span" sx={{ fontSize: 20 }}>
+                  {payment.datepayment}
+                </Typography>
+              </Stack>
+            </Grid>
+            <Grid item xs={12} sm={6} md={3}>
+              <Stack direction={"row"} gap={1}>
+                <Typography component="span" sx={{ fontSize: 20 }}>
+                  مبلغ پرداختی :
+                </Typography>
+                <Typography component="span" sx={{ fontSize: 20 }}>
+                  {payment.payments}
+                </Typography>
+              </Stack>
+            </Grid>
+          </React.Fragment>
+        ))}
       </Grid>
     </Stack>
   );

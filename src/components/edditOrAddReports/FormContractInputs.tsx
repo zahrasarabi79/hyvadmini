@@ -6,12 +6,10 @@ import ContractInfoInputs from "./ContractInfoInputs";
 import PassengersInputs from "./passengersInputs";
 import BuySellInformation from "./BuySellInformation";
 import axiosInstance from "../axios/axiosInstance";
-import { IContract, IPassenger, IReport, IReportError } from "../interface/Interfaces";
+import { IContract, IPassenger, IReport, IReportError, IReportErrorPayment, IReportPayment } from "../interface/Interfaces";
 import { AxiosError } from "axios";
 
 const FormContractInputs = () => {
-  console.log("222");
-
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -20,9 +18,7 @@ const FormContractInputs = () => {
       number: "",
       costTitle: "",
       presenter: "",
-      bank: "",
-      payments: "",
-      datepayment: "",
+      reportPayment: [{ bank: "", payments: "", datepayment: "" }],
     },
   ]);
   const [contract, setContract] = useState<IContract>({
@@ -41,9 +37,7 @@ const FormContractInputs = () => {
       number: false,
       costTitle: false,
       presenter: false,
-      bank: false,
-      payments: false,
-      datepayment: false,
+      reportPayment: [{ bank: false, payments: false, datepayment: false }],
     },
   ]);
 
@@ -53,7 +47,7 @@ const FormContractInputs = () => {
       report: [...report],
     });
   }, [report]);
-  // const [updateData, setUpdateData] = useState();
+
   useEffect(() => {
     if (id) {
       getContract();
@@ -70,15 +64,16 @@ const FormContractInputs = () => {
       console.log("problem:", error);
     }
   };
-  const getContract = async () => {
-   
+  const isError = reportError.some((item) => {
+    return (
+      item.number || item.costTitle || item.presenter || item.reportPayment.some((payment) => payment.bank || payment.payments || payment.datepayment)
+    );
+  });
 
+  const getContract = async () => {
     try {
       const { data } = await axiosInstance.post("/showReports", { id });
       const { dateContract, numContract, typeReport, passengers, report } = data.Contracts[0];
-      console.log(passengers);
-      
-  
       const passengerNames = passengers.map(({ passenger }: IPassenger) => passenger);
 
       setContract({
@@ -89,14 +84,19 @@ const FormContractInputs = () => {
         report: [],
       });
 
-      const ReportData = report.map((obj: IReport) => ({
-        number: obj.number,
-        costTitle: obj.costTitle,
-        presenter: obj.presenter,
-        bank: obj.bank,
-        payments: obj.payments,
-        datepayment: obj.datepayment,
-      }));
+      const ReportData = report.map((obj: IReport) => {
+        const reportPayments = obj.reportPayment.map(({ bank, payments, datepayment }: IReportPayment) => ({
+          bank,
+          payments,
+          datepayment,
+        }));
+        return {
+          number: obj.number,
+          costTitle: obj.costTitle,
+          presenter: obj.presenter,
+          reportPayment: [...reportPayments],
+        };
+      });
       setReport([...ReportData]);
     } catch (error: AxiosError | any) {
       console.log("problem:", error);
@@ -122,16 +122,19 @@ const FormContractInputs = () => {
         newState[index].number = item.number.toString().trim() === "" ? true : false;
         newState[index].costTitle = item.costTitle.trim() === "" ? true : false;
         newState[index].presenter = item.presenter.trim() === "" ? true : false;
-        newState[index].bank = item.bank.trim() === "" ? true : false;
-        newState[index].payments = item.payments.trim() === "" ? true : false;
-        newState[index].datepayment = item.datepayment.trim() === "" ? true : false;
+        newState[index].reportPayment = item.reportPayment.map((payment: IReportPayment) => ({
+          bank: payment.bank.trim() === "" ? true : false,
+          payments: payment.payments.trim() === "" ? true : false,
+          datepayment: payment.datepayment.trim() === "" ? true : false,
+        }));
         return newState;
       });
     });
   };
+  console.log(!!contract.dateContract);
 
   const handelCantractInfoError = async () => {
-    contract.dateContract ? setDateContractError(true) : setDateContractError(false);
+    contract.dateContract ? setDateContractError(false) : setDateContractError(true);
     contract.numContract.trim() === "" ? setNumContractError(true) : setNumContractError(false);
     contract.passengers.length === 0 ? setPassengersError(true) : setPassengersError(false);
     validateReportArray(contract.report);
@@ -140,33 +143,23 @@ const FormContractInputs = () => {
   const handelSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await handelCantractInfoError();
-    const isFormValid: boolean =
-      !dateContractError &&
-      !numContractError &&
-      !passengersError &&
-      reportError.every((error: IReportError) => Object.values(error).every((value: boolean) => value === false));
+    const isFormValid: boolean = !dateContractError && !numContractError && !passengersError && !isError;
 
-    isFormValid ? (id ? updateDataContract() : saveContract()) : false;
+    isFormValid ? (id ? updateDataContract() : saveContract()) : console.log("didnot valid");
+    console.table(`date : ${dateContractError}😊`, `numErr:${numContractError}😊`, `passErr:${passengersError}😊`, `isError:${isError}😊`);
   };
 
   return (
     <>
       <Card>
-        <CardHeader
-          sx={{ borderBottom: "3px solid rgba(255, 122, 0, 1)" }}
-          title={
-            <Typography variant="body1" sx={{ fontSize: 20 }}>
-              Contract Information
-            </Typography>
-          }
-        />
+        <CardHeader dir="rtl" sx={{ borderBottom: "3px solid rgba(255, 122, 0, 1)" }} title=" ایجاد قرارداد" />
 
         <Stack sx={{ p: 2, gap: 5, borderRadius: 4, justifyContent: "right" }}>
           <Typography variant="h4" sx={{ color: "white", textAlign: "center", p: 2 }}>
             گزارش خرید و فروش هیواد پرواز کیش
           </Typography>
           <form noValidate onSubmit={handelSubmit}>
-          <ContractInfoInputs
+            <ContractInfoInputs
               contract={contract}
               setContract={setContract}
               setDateContractError={setDateContractError}

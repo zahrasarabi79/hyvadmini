@@ -9,9 +9,16 @@ export interface IReportApiResponse {
   number: number;
   costTitle: string;
   presenter: string;
+  reportPayment: IReportPaymentApiResponse[];
+  contractId: number;
+}
+
+export interface IReportPaymentApiResponse {
+  id: number;
   datepayment: string;
   payments: string;
   bank: string;
+  reportId: number;
   contractId: number;
 }
 export interface IContractApiResponse {
@@ -24,7 +31,7 @@ export interface IContractApiResponse {
 }
 // data
 export interface IContract {
-  dateContract: string;
+  dateContract: string | Date;
   numContract: string;
   passengers: string[];
   typeReport: string;
@@ -34,10 +41,14 @@ export interface IReport {
   number: string;
   costTitle: string;
   presenter: string;
+  reportPayment: IReportPayment[];
+  [index: number | string]: string | IReportPayment[];
+}
+export interface IReportPayment {
   datepayment: string;
   payments: string;
   bank: string;
-  [index: string]: string;
+  [index: number | string]: string;
 }
 export interface IPassenger {
   passenger: string;
@@ -48,10 +59,14 @@ export interface IReportError {
   number: boolean;
   costTitle: boolean;
   presenter: boolean;
-  datepayment: boolean;
-  payments: boolean;
+  reportPayment: IReportErrorPayment[];
+  [index: number | string]: boolean | IReportErrorPayment[];
+}
+export interface IReportErrorPayment {
   bank: boolean;
-  [index: number | string]: boolean;
+  payments: boolean;
+  datepayment: boolean;
+  [index: number]: boolean;
 }
 // props component
 export interface IContractInfoInputs {
@@ -91,7 +106,9 @@ export interface IReportcomponent {
   key: number;
   index: number;
   item: IReport;
+
   handleChange: (e: React.ChangeEvent<HTMLInputElement>, index: number, value: string) => void;
+  handleChangePaymentReport: (e: React.ChangeEvent<HTMLInputElement>, paymentIndex: number, reportIndex: number, field: string) => void;
   setReport: React.Dispatch<React.SetStateAction<IReport[]>>;
   reportError: IReportError;
 }
@@ -119,4 +136,9 @@ export interface Token {
 export interface IUser {
   username: string | null | File;
   password: string | null | File;
+}
+
+export interface IUserError {
+  username: boolean;
+  password: boolean;
 }

@@ -1,3 +1,14 @@
 body {
-  background-color: #fff;
+  font-family: "Vazirmatn", sans-serif;
+}
+
+div {
+  font-family: "Vazirmatn", sans-serif;
+}
+@font-face {
+  font-family: "vazirmatn";
+  src: url("../assets/fonts/Vazirmatn-Black.ttf") format("truetype"), url("../assets/fonts/Vazirmatn-Bold.ttf") format("truetype"),
+    url("../assets/fonts/Vazirmatn-Medium.ttf") format("truetype"), url("../assets/fonts/Vazirmatn-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
 }

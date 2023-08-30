@@ -4,8 +4,7 @@ import Dashboard from "./components/dashboard/dashboard";
 import ShowReport from "./components/showReports/showReport";
 import AddOrEditContract from "./components/edditOrAddReports/addOrEditContract";
 import NotPage from "./components/404Page/404Page";
-import AddContract from "./components/AddContract/AddContract";
-
+// import "./index.css";
 function App() {
   return (
     <BrowserRouter>
@@ -13,7 +12,7 @@ function App() {
         <Route path="/" element={<LoginIn />} />
         <Route path="showReport/:id" element={<ShowReport />} />
         <Route path="EditReport/:id" element={<AddOrEditContract />} />
-        <Route path="AddContract/" element={<AddOrEditContract/>} />
+        <Route path="AddContract/" element={<AddOrEditContract />} />
         <Route path="dashboardd" element={<Dashboard />} />
         <Route path="*" element={<NotPage />} />
       </Routes>

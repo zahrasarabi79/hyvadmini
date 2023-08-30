@@ -1,4 +1,4 @@
-import { Box, Card, CardActions, CardContent, CardHeader, Grid, Stack, Typography } from "@mui/material";
+import { Card, CardActions, CardContent, CardHeader, Grid, Stack, Typography } from "@mui/material";
 import ContractInformations from "./ContractInformations";
 import PassengersInfo from "./PassengersInfo";
 import ReportsInfo from "./ReportInfo";
@@ -21,14 +21,22 @@ const Contract = () => {
   });
   const [passengers, setPassengers] = useState<IpassengersApiResponse[]>([{ id: NaN, passenger: "", contractId: NaN }]);
   const [reports, setReports] = useState<IReportApiResponse[]>([
-    { id: NaN, number: NaN, costTitle: "", presenter: "", datepayment: "", payments: "", bank: "", contractId: NaN },
+    {
+      id: NaN,
+      number: NaN,
+      costTitle: "",
+      presenter: "",
+      reportPayment: [{ id: NaN, bank: "", payments: "", datepayment: "", contractId: NaN, reportId: NaN }],
+      contractId: NaN,
+    },
   ]);
 
   const { id } = useParams();
   const getContract = async () => {
     try {
       const { data } = await axiosInstance.post("/showReports", { id });
-      console.log(data.Contracts[0].passengers);
+
+      console.log(data.Contracts[0].report[0].reportPayment);
 
       setContract(data.Contracts[0]);
       setPassengers(data.Contracts[0].passengers);
@@ -44,7 +52,7 @@ const Contract = () => {
 
   return (
     <Card>
-      <CardHeader title="Contract Information" sx={{ borderBottom: "3px solid rgba(255, 122, 0, 1)" }} />
+      <CardHeader dir="rtl" title="اطلاعات قرارداد" sx={{ borderBottom: "3px solid rgba(255, 122, 0, 1)" }} />
       <CardContent>
         <Stack sx={{ p: 2, gap: 2, borderRadius: 4 }}>
           <Typography variant="h4" sx={{ color: "white", textAlign: "center", p: 2 }}>
@@ -54,7 +62,7 @@ const Contract = () => {
           <PassengersInfo passengers={passengers} />
           <ReportsInfo reports={reports} />
           <CardActions sx={{ gap: 2 }}>
-            <Grid container direction={["column", "row"]} spacing={2} >
+            <Grid container direction={["column", "row"]} spacing={2}>
               <Grid item xs={12} md={6}>
                 <EditBtn id={id} />
               </Grid>

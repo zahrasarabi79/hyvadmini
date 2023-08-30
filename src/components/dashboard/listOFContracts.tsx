@@ -28,7 +28,7 @@ const ListOfContracts = () => {
 
   return (
     <Card>
-      <CardHeader sx={{ borderBottom: "3px solid rgba(255, 122, 0, 1)" }} title="List Of Reports" />
+      <CardHeader sx={{ borderBottom: "3px solid rgba(255, 122, 0, 1)" }} dir="rtl" title="لیست گزارش ها" />
       <CardContent sx={{}}>
         <Grid container direction="column" justifyContent="center" gap={2} alignItems="stretch">
           {listOfContracts.map((contract) => (
@@ -54,14 +54,14 @@ const ContractCard: React.FC<IContractInformations> = ({ contract }) => {
           <Grid item xs={12} md={5} alignItems={"center"}>
             <Stack direction={"row"} gap={1} justifyContent={"flex-end"}>
               <Typography component="span" sx={{ fontSize: 20 }}>
-                {contract.dateContract}
+                {new Date(contract?.dateContract).toLocaleDateString("fa")}
               </Typography>
               <Typography component="span" sx={{ fontSize: 20 }}>
                 :تاریخ قراداد
               </Typography>
             </Stack>
           </Grid>
-          <Grid item xs={12} md={5} sx={{ my: [2, 4, 0], lineHeight: [1.5,0 ,0] }}>
+          <Grid item xs={12} md={5} sx={{ my: [2, 4, 0], lineHeight: [0, 0, 0] }}>
             <Stack direction={"row"} gap={1} justifyContent={"flex-end"}>
               <Box component="span" sx={{ fontSize: 20 }}>
                 {contract.numContract}

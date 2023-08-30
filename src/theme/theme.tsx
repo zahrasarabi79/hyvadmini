@@ -57,6 +57,9 @@ const Theme: FC<{ children: ReactNode }> = ({ children }) => {
       },
       divider: "rgba(255, 255, 255, 0.10)",
     },
+    typography: {
+      fontFamily: "vazirmatn, sans-serif",
+    },
   });
 
   return (
